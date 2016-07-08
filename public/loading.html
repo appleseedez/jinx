@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Loading</title>
+    <link href="./style/main.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="./vendors/lottery.js"></script>
+  </head>
+  <body>
+    <div class="viewport-mq">
+      <div class="loading-mq">
+        <div class="loading-box">
+          <span class="ico-loading"></span>
+          <p>Loading...</p>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      $(function(){
+        var $Html = $(document.body).parent();
+        var V_w;
+        var V_h;
+        var Ratio;
+        function adaptation(){
+          V_w = $(window).width();
+          V_h = $(window).height();
+          if((V_w/V_h) > (320/568)){
+            Ratio = V_h/568 * 50;
+          }else{
+            Ratio = V_w/320 * 50;        
+          };
+          $Html.css("font-size", Ratio + "px");
+        };
+        $(window).resize(function () {
+          adaptation();
+        }); 
+        adaptation();       
+      });
+      $(function(){
+        $('#lotteryGo').on('click',function(){
+          var $that = $(this);
+          var t = setTimeout(function(){
+            $that.removeClass('pre');
+          },200);
+          $that.addClass('pre');
+        });
+      });
+    </script>
+    <script type="text/javascript">
+      window.onload = function () {
+        lottery.lottery({
+          selector:     '#lottery',
+          width:        3,
+          height:       3,
+          index:        7,    // 初始位置
+          initSpeed:    500,  // 初始转动速度
+          upStep:       100,   // 加速滚动步长
+          upMax:        100,   // 速度上限
+          downStep:     30,   // 减速滚动步长
+          downMax:      500,  // 减速上限
+          waiting:      1500, // 匀速转动时长
+          beforeRoll: function () { // 重写滚动前事件：beforeRoll
+            console.log(this.options.aim);
+            // alert(1);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的奖品</title>
+    <link href="./style/main.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="./vendors/lottery.js"></script>
+  </head>
+  <body>
+    <div class="viewport-mq">
+      <nav class="nav-mq">
+        <span class="back"></span>
+        <h1>秒喵抽奖</h1>
+      </nav>
+      <div class="content-mq">
+        <ul class="prize-list-mq">
+          <li class="prize-item">
+            <div class="hd">
+              <h2>领奖说明</h2>
+            </div>
+            <div class="bd">
+              <p>如何奖品：实物奖品请于中奖之日起3个工作日内联系客服；其他奖品已自动入账</p>
+              <p>客服电话：028-86134618&nbsp;&nbsp;&nbsp;&nbsp;13518202113</p>
+            </div>
+          </li>
+          <li class="prize-item">
+            <div class="hd">
+              <div class="prize-box">
+                <div class="pic">
+                  <img src="img/prize_thu/hlg.png" alt="">
+                </div>
+                <div class="info">
+                  <span class="name">欢乐谷门票（夜场）</span>
+                </div>                
+              </div>
+            </div>
+            <div class="bd">
+              <span class="status">未领取</span>
+              <p class="date">2016年05月20日</p>
+            </div>
+          </li>
+          <li class="prize-item">
+            <div class="hd">
+              <div class="prize-box">
+                <div class="pic">
+                  <img src="img/prize_thu/hlg.png" alt="">
+                </div>
+                <div class="info">
+                  <span class="name">欢乐谷门票（夜场）</span>
+                </div>                
+              </div>
+            </div>
+            <div class="bd">
+              <span class="status">未领取</span>
+              <p class="date">2016年05月20日</p>
+            </div>
+          </li>
+          <li class="prize-item">
+            <div class="hd">
+              <div class="prize-box">
+                <div class="pic">
+                  <img src="img/prize_thu/hlg.png" alt="">
+                </div>
+                <div class="info">
+                  <span class="name">欢乐谷门票（夜场）</span>
+                </div>                
+              </div>
+            </div>
+            <div class="bd">
+              <span class="status">未领取</span>
+              <p class="date">2016年05月20日</p>
+            </div>
+          </li>
+          <li class="prize-item">
+            <div class="hd">
+              <div class="prize-box">
+                <div class="pic">
+                  <img src="img/prize_thu/hlg.png" alt="">
+                </div>
+                <div class="info">
+                  <span class="name">欢乐谷门票（夜场）</span>
+                </div>                
+              </div>
+            </div>
+            <div class="bd">
+              <span class="status">未领取</span>
+              <p class="date">2016年05月20日</p>
+            </div>
+          </li>
+          <li class="prize-item">
+            <div class="hd">
+              <div class="prize-box">
+                <div class="pic">
+                  <img src="img/prize_thu/qb.png" alt="">
+                </div>
+                <div class="info">
+                  <p class="name">现金红包5.20</p>
+                  <p class="brief">单身市场认识朋友</p>
+                </div>                
+              </div>
+            </div>
+            <div class="bd">
+              <span class="status dk">已入账</span>
+              <p class="date">2016年05月20日</p>
+            </div>
+          </li>
+          <li class="prize-item">
+            <div class="hd">
+              <div class="prize-box">
+                <div class="pic">
+                  <img src="img/prize_thu/qb.png" alt="">
+                </div>
+                <div class="info">
+                  <p class="name">现金红包5.20</p>
+                  <p class="brief">单身市场认识朋友</p>
+                </div>                
+              </div>
+            </div>
+            <div class="bd">
+              <span class="status dk">已入账</span>
+              <p class="date">2016年05月20日</p>
+            </div>
+          </li>
+          <li class="prize-item">
+            <div class="hd">
+              <div class="prize-box">
+                <div class="pic">
+                  <img src="img/prize_thu/qb.png" alt="">
+                </div>
+                <div class="info">
+                  <p class="name">现金红包5.20</p>
+                  <p class="brief">单身市场认识朋友</p>
+                </div>                
+              </div>
+            </div>
+            <div class="bd">
+              <span class="status dk">已入账</span>
+              <p class="date">2016年05月20日</p>
+            </div>
+          </li>
+          <li class="prize-item">
+            <div class="hd">
+              <div class="prize-box">
+                <div class="pic">
+                  <img src="img/prize_thu/qb.png" alt="">
+                </div>
+                <div class="info">
+                  <p class="name">现金红包5.20</p>
+                  <p class="brief">单身市场认识朋友</p>
+                </div>                
+              </div>
+            </div>
+            <div class="bd">
+              <span class="status dk">已入账</span>
+              <p class="date">2016年05月20日</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script type="text/javascript">
+      $(function(){
+        var $Html = $(document.body).parent();
+        var V_w;
+        var V_h;
+        var Ratio;
+        function adaptation(){
+          V_w = $(window).width();
+          V_h = $(window).height();
+          if((V_w/V_h) > (320/568)){
+            Ratio = V_h/568 * 50;
+          }else{
+            Ratio = V_w/320 * 50;        
+          };
+          $Html.css("font-size", Ratio + "px");
+        };
+        $(window).resize(function () {
+          adaptation();
+        }); 
+        adaptation();       
+      });
+    </script>
+  </body>
+</html>
