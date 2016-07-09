@@ -22,14 +22,14 @@ app.listen(8888,()=>{
 // .then(res=>{ return res.json() })
 // .then(res=>{ console.log('checkIn:',JSON.stringify(res,null,4)) })
 //
-// API.loot({ userId:1035 })
+// API.loot({ userId:1034 })
 // .then(res=>{ return res.json() })
 // .then(res=>{ console.log('loot:',JSON.stringify(res,null,4)) })
-//
-// // API.prizeList({ userId:1035 })
-// // .then(res=>{ return res.json() })
-// // .then(res=>{ console.log('prizeList:',res) })
-// //
+
+// API.prizeList({ userId:1034 })
+// .then(res=>{ return res.json() })
+// .then(res=>{ console.log('prizeList:',JSON.stringify(res,null,4)) })
+
 // API.mission({ userId:1035 })
 // .then(res=>{ return res.json() })
 // .then(res=>{ console.log('mission:',res) })
