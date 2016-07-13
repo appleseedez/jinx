@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react'
 import _ from 'lodash'
-
+import GlobalConfig from '../../config'
+import { API } from '../../api'
+import Loading from './loading.jsx'
 class Explain extends React.Component {
   render () {
     return (
@@ -92,9 +94,6 @@ class Explain extends React.Component {
   }
 }
 
-
-
-
 class PrizeList extends React.Component {
   render () {
     if (0 === _.size(this.props.data) ) {
@@ -123,19 +122,19 @@ class PrizeList extends React.Component {
               <li key={k} className="prize-item">
                 <div className="hd">
                   <div className="prize-box">
-                    <span className="num">x1</span>
+                    <span className="num">{v.amount>1?'x'+v.amount:''}</span>
                     <div className="pic">
-                      <img src="img/prize_thu/hlg.png" alt />
+                      <img src={v.prizeImage?GlobalConfig.PIC_PREFIX + v.prizeImage:"img/prize_thu/hlg.png"} alt />
                     </div>
                     <div className="info">
-                      <p className="name">欢乐谷门票（夜场）</p>
-                      <p className="brief"></p>
+                      <p className="name">{v.prizeName || 'GIFT'}</p>
+                    <p className="brief">{v.comment || ''}</p>
                     </div>
                   </div>
                 </div>
                 <div className="bd">
-                  <span className="status">未领取</span>
-                  <p className="date">2016年05月20日</p>
+                  <span className={v.received?"status dk":"status"}>{v.received?(v.virtual?'已到账':'已领取'):'未领取'}</span>
+                <p className="date">{v.lotteryTime}</p>
                 </div>
               </li>
             )
@@ -147,14 +146,88 @@ class PrizeList extends React.Component {
   }
 }
 
+class More extends React.Component {
+  render () {
+    return (
+  <div className="more-chance-mq">
+        <div className="top-tip">
+          <p>完成任务</p>
+          <p>抽奖次数可累加</p>
+        </div>
+        <ul className="task-list-mq">
+          <li className="task-item">
+            <span className="ico ico-yq" />
+            <p className="tit">邀请朋友（填写邀请码）</p>
+            <p className="brief">邀请人+1次</p>
+            <p className="brief">被邀请人+1次</p>
+          </li>
+          <li className="task-item">
+            <span className="ico ico-pyq" />
+            <p className="tit">分享朋友圈</p>
+            <p className="brief">分享一次获得+1次</p>
+            <p className="brief">最多+2次</p>
+          </li>
+          <li className="task-item">
+            <span className="ico ico-zl" />
+            <p className="tit">完善资料</p>
+            <p className="brief">100%资料完整（包括8张头像）</p>
+            <p className="brief">完成获得+1次</p>
+          </li>
+          <li className="task-item">
+            <span className="ico ico-dl" />
+            <p className="tit">连续登录</p>
+            <p className="brief">三天+1次</p>
+            <p className="brief">七天再+1次</p>
+          </li>
+        </ul>
+      </div>
+
+    )
+  }
+}
+
+
 
 class Content extends React.Component {
-  static defaultProps = {
-    type:'mylist',
-    data:[]
-  };
+  constructor(){
+    super()
+    this.state = {
+      data:[],
+      loading:true
+    }
+  }
+  componentWillMount() {
+    console.log(this.props.params.type);
+  }
+  componentDidMount() {
+    if (this.props.params.type==='prize_list') {
+      API.prizeList({ userId:1034 })
+      .then(res=>{ return res.json() })
+      .then(res=>{
+        console.log('prizeList:',JSON.stringify(res,null,4))
+        if (res.success) {
+          this.setState({
+            data:res.resultMap.entity || [],
+            loading:false
+          })
+        }
+       })
+    }
+  }
   render () {
-    switch (this.props.type) {
+    if (this.state.loading) {
+        return (
+          <Loading />
+        )
+    }
+    switch (this.props.params.type) {
+      case 'more':
+        return (
+          <div className="content-mq">
+            <More />
+          </div>
+        )
+        break
       case 'explain':
         return (
           <div className="content-mq">
@@ -165,12 +238,13 @@ class Content extends React.Component {
       default:
         return (
           <div className="content-mq">
-            <PrizeList />
+            <PrizeList data={this.state.data || []} />
           </div>
         )
     }
 
   }
 }
+
 
 export default Content;

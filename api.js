@@ -1,9 +1,11 @@
 import fetch from 'node-fetch'
+// import fetch from 'whatwg-fetch'
 import _ from 'lodash'
 const Config = {
   "scheme":"http://",
-  "host":"192.168.31.72",
-  "port":9080,
+  // "host":"10.0.0.8",
+  "host":"api.shit0u.com",
+  "port":88,
   "prefix":"/ad-api/lottery",
 }
 const Params = (obj)=>{

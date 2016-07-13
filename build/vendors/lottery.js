@@ -39,18 +39,18 @@ var lottery = {
 		// 这里为每一个奖项设置一个有序的下标，方便lottery._roll的处理
 		// 初始化第一行lottery-group的序列
 		for (var i = 0; i < this.options.width; ++i) {
-			this.container.find('.lottery-group:first .lottery-unit:eq(' + i + ')').attr('lottery-unit-index', i);
+			this.container.find('.lottery-group:first .lottery-unit:eq(' + i + ')').attr('data-lottery-unit-index', i);
 		}
 
 		// 初始化最后一行lottery-group的序列
 		for (var i = lottery._count() - this.options.height + 1, j = 0, len = this.options.width + this.options.height - 2; i >= len; --i, ++j) {
-			this.container.find('.lottery-group:last .lottery-unit:eq(' + j + ')').attr('lottery-unit-index', i);
+			this.container.find('.lottery-group:last .lottery-unit:eq(' + j + ')').attr('data-lottery-unit-index', i);
 		}
 
 		// 初始化两侧lottery-group的序列
 		for (var i = 1, len = this.options.height - 2; i <= len; ++i) {
-			this.container.find('.lottery-group:eq(' + i + ') .lottery-unit:first').attr('lottery-unit-index', lottery._count() - i);
-			this.container.find('.lottery-group:eq(' + i + ') .lottery-unit:last').attr('lottery-unit-index', this.options.width + i - 1);
+			this.container.find('.lottery-group:eq(' + i + ') .lottery-unit:first').attr('data-lottery-unit-index', lottery._count() - i);
+			this.container.find('.lottery-group:eq(' + i + ') .lottery-unit:last').attr('data-lottery-unit-index', this.options.width + i - 1);
 		}
 		this._enable();
 	},
@@ -127,9 +127,9 @@ var lottery = {
 	// 转盘滚动
 	_roll: function () {
 		var _this = this;
-		_this.container.find('[lottery-unit-index=' + _this._index() + ']').removeClass("pre");
+		_this.container.find('[data-lottery-unit-index=' + _this._index() + ']').removeClass("pre");
 		++_this.options.index;
-		_this.container.find('[lottery-unit-index=' + _this._index() + '].lottery-unit').addClass("pre");
+		_this.container.find('[data-lottery-unit-index=' + _this._index() + '].lottery-unit').addClass("pre");
 		_this.rollerTimer = setTimeout(function () { _this._roll(); }, _this.options.speed);
 		if (!_this.options.isRunning) {
 			_this._up();

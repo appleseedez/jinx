@@ -86,11 +86,8 @@ class MaterialPop extends React.Component {
 
 
 class Pop extends React.Component {
-  static defaultProps = {
-    type:'material'
-  };  // 注意这里有分号
   render () {
-    switch (this.props.type) {
+    switch (this.props.params.type) {
       case 'virtual':
         return <VirtualPop />
         break

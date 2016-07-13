@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>LOL</title>
+    <link href="./style/main.css" rel="stylesheet">
+    <script src="./vendors/jquery-3.0.0.min.js" charset="utf-8"></script>
+    <script src="./vendors/lottery.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        var container = document.getElementsByClassName("viewport-mq")[0];
+        container.addEventListener("touchmove", function(evt){ evt.stopPropagation(); }, false);
+      })
+    </script>
+  </head>
+  <body>
+    <div class="viewport-mq" id="root">
+    </div>
+  </body>
+  <script src="./scripts/app.js" charset="utf-8"></script>
+</html>
