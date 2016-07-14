@@ -4,10 +4,11 @@ import Config from './config'
 import express from 'express'
 
 const app = express()
-// var favicon = require('serve-favicon');
 import favicon from 'serve-favicon'
 app.use(favicon(__dirname + '/public/favicon.ico'))
 app.use('/static',express.static(__dirname+'/build'))
+
+
 
 
 app.listen(9999,()=>{
@@ -15,10 +16,12 @@ app.listen(9999,()=>{
 })
 
 
+// console.log(API.getToken('ef180bbe-d8c7-3255-9883-59b3fb89e408'));
+
 // //获取首页
-API.index({userId:1035})
-.then(res=>{ return res.json() })
-.then(res=>{ console.log('index:',JSON.stringify(res,null,4)) })
+// API.index({userId:1035})
+// .then(res=>{ return res.json() })
+// .then(res=>{ console.log('index:',JSON.stringify(res,null,4)) })
 //
 // API.checkIn({userId:1035})
 // .then(res=>{ return res.json() })

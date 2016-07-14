@@ -14,7 +14,7 @@ class Index extends React.Component {
     }
   }
   componentDidMount() {
-
+    console.log(API.getToken('ef180bbe-d8c7-3255-9883-59b3fb89e408'));
     API.index({userId:1035})
     .then(res=>{ return res.json() })
     .then(res=>{
