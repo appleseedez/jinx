@@ -1,12 +1,15 @@
-import fetch from 'node-fetch'
+import 'es6-promise'
+import 'whatwg-fetch'
 import _ from 'lodash'
+const isBrowser = new Function('try {return this===window;}catch(e){ return false;}')
 const Config = {
 	'scheme': 'http://',
 	'host': 'api.shit0u.com',
-	'port': 88,
+	'port': 9527,
 	'prefix': '/ad-api/lottery',
 	'tokenPriveKey': 'an4@lx300#$o25#$',
-	'xPrivateKey': '45ryu230a@n2x302'
+	'xPrivateKey': '45ryu230a@n2x302',
+	'signPrivateKey':'mIo98aiqing'
 }
 const Params = (obj) => {
 	if (!obj || _.size(obj) === 0) {
@@ -26,12 +29,10 @@ const API = {
 		if (!privateKey) {
 			throw new Exception('无法加密,pk未提供')
 		}
-		const isBrowser = new Function('try {return this===window;}catch(e){ return false;}')
-		if (!isBrowser()) {
-			const forge = require('node-forge')
-		} else {
-			console.log('NODE');
-		}
+		
+		let forge = null
+		if(isBrowser()) {forge = window.forge}
+		if (!isBrowser()) { forge = require('node-forge') }
 		const key = forge.util.createBuffer(privateKey)
 		const iv = forge.util.createBuffer('0312032293271340')
 		const cipher = forge.cipher.createCipher('AES-CBC', key)
@@ -46,21 +47,33 @@ const API = {
 		return API.aesGen(pubToken, Config.tokenPriveKey)
 	},
 	getX: (timestamp) => {
-		return API.aesGen(timestamp, xPrivateKey)
+		return API.aesGen(timestamp, Config.xPrivateKey)
+	},
+	getSign :(url,pubToken) => {
+		const md5 = require('md5')
+		let sign = new Buffer(md5(Config.prefix+url+pubToken+Config.signPrivateKey)).toString('base64')
+		console.log(sign)
+		return sign
 	},
 	doPOST: (url, payload) => {
 		console.log(BuildURL(Config, url));
+		let fetch = null;
+		if(isBrowser()){ fetch = window.fetch } 
+		if(!isBrowser()){ fetch = require('node-fetch') }  
 		// post
 		const fetchCfg = {
 			method: 'post',
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
+			headers: {
+				'Content-Type':'application/x-www-form-urlencoded;charset=utf-8',
+				'userId':'1035',
+				'token':API.getToken('9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
+				'sign':API.getSign(url,'9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
+				'x':API.getX(new Date().getTime()+'')
+			},
 			credentials: 'same-origin',
 			body: Params(payload)
 		}
-		return fetch(BuildURL(Config, url), fetchCfg)
-			.catch((err) => {
-				console.log('网络错误:', err);
-			})
+		return fetch(BuildURL(Config, url), fetchCfg).catch(err => console.log('网络错误:', err))
 	},
 	doGET: (url, payload) => {
 		// get

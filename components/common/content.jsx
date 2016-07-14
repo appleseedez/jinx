@@ -220,28 +220,30 @@ class Content extends React.Component {
           <Loading />
         )
     }
+    let component = null
     switch (this.props.params.type) {
       case 'more':
-        return (
+        component =  (
           <div className="content-mq">
             <More />
           </div>
         )
         break
       case 'explain':
-        return (
+        component = (
           <div className="content-mq">
             <Explain />
           </div>
         )
         break;
       default:
-        return (
+        component =  (
           <div className="content-mq">
             <PrizeList data={this.state.data || []} />
           </div>
         )
     }
+    return component
 
   }
 }
