@@ -14235,7 +14235,7 @@ function extend() {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 exports.API = undefined;
 
@@ -14250,89 +14250,87 @@ var _lodash2 = _interopRequireDefault(_lodash);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Config = {
-  "scheme": "http://",
-  // "host":"10.0.0.8",
-  "host": "api.shit0u.com",
-  "port": 88,
-  "prefix": "/ad-api/lottery",
-  "tokenPriveKey": "an4@lx300#$o25#$",
-  "xPrivateKey": "45ryu230a@n2x302"
+	'scheme': 'http://',
+	'host': 'api.shit0u.com',
+	'port': 88,
+	'prefix': '/ad-api/lottery',
+	'tokenPriveKey': 'an4@lx300#$o25#$',
+	'xPrivateKey': '45ryu230a@n2x302'
 };
 var Params = function Params(obj) {
-  if (!obj || _lodash2.default.size(obj) === 0) {
-    return '';
-  }
-  return _lodash2.default.map(obj, function (v, k) {
-    return k + '=' + encodeURIComponent(v);
-  }).join('&');
+	if (!obj || _lodash2.default.size(obj) === 0) {
+		return '';
+	}
+	return _lodash2.default.map(obj, function (v, k) {
+		return k + '=' + encodeURIComponent(v);
+	}).join('&');
 };
 
 var BuildURL = function BuildURL(config, url) {
-  return config.scheme + config.host + ':' + config.port + config.prefix + url;
+	return config.scheme + config.host + ':' + config.port + config.prefix + url;
 };
 var API = {
-  aesGen: function aesGen(pub, privateKey) {
-    if (!privateKey) {
-      throw new Exception("无法加密,pk未提供");
-      return;
-    }
-    var isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
-    if (!isBrowser()) {
-      var _forge = require('node-forge');
-    } else {
-      console.log('NODE');
-    }
-    var key = forge.util.createBuffer(privateKey);
-    var iv = forge.util.createBuffer('0312032293271340');
-    var cipher = forge.cipher.createCipher('AES-CBC', key);
-    cipher.start({ iv: iv });
-    cipher.update(forge.util.createBuffer(pub));
-    cipher.finish();
-    var encrypted = cipher.output;
-    var priv = encodeURIComponent(new Buffer(encrypted.getBytes(), 'binary').toString('base64'));
-    return priv;
-  },
-  getToken: function getToken(pubToken) {
-    return API.aesGen(pubToken, Config.tokenPriveKey);
-  },
-  getX: function getX(timestamp) {
-    return API.aesGen(timestamp, xPrivateKey);
-  },
-  doPOST: function doPOST(url, payload) {
-    console.log(BuildURL(Config, url));
-    // post
-    var fetchCfg = {
-      method: 'post',
-      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=utf-8" },
-      credentials: 'same-origin',
-      body: Params(payload)
-    };
-    return (0, _nodeFetch2.default)(BuildURL(Config, url), fetchCfg).catch(function (err) {
-      console.log('网络错误:', err);
-    });
-  },
-  doGET: function doGET(url, payload) {
-    // get
-  },
-  index: function index(payload) {
-    //获取抽奖首页
-    return API.doPOST('/lotteryPage', payload);
-  },
-  loot: function loot(payload) {
-    // 调用抽奖 payload:{userId:1}
-    return API.doPOST('/lotting', payload);
-  },
-  prizeList: function prizeList(payload) {
-    // 获取奖品列表 payload: {userId :1}
-    return API.doPOST('/prize/list', payload);
-  },
-  mission: function mission(payload) {
-    // 获取用户任务完成情况 payload:{userId:1}
-    return API.doPOST('/mission', payload);
-  },
-  checkIn: function checkIn(payload) {
-    return API.doPOST('/checkin', payload);
-  }
+	aesGen: function aesGen(pub, privateKey) {
+		if (!privateKey) {
+			throw new Exception('无法加密,pk未提供');
+		}
+		var isBrowser = new Function('try {return this===window;}catch(e){ return false;}');
+		if (!isBrowser()) {
+			var _forge = require('node-forge');
+		} else {
+			console.log('NODE');
+		}
+		var key = forge.util.createBuffer(privateKey);
+		var iv = forge.util.createBuffer('0312032293271340');
+		var cipher = forge.cipher.createCipher('AES-CBC', key);
+		cipher.start({ iv: iv });
+		cipher.update(forge.util.createBuffer(pub));
+		cipher.finish();
+		var encrypted = cipher.output;
+		var priv = encodeURIComponent(new Buffer(encrypted.getBytes(), 'binary').toString('base64'));
+		return priv;
+	},
+	getToken: function getToken(pubToken) {
+		return API.aesGen(pubToken, Config.tokenPriveKey);
+	},
+	getX: function getX(timestamp) {
+		return API.aesGen(timestamp, xPrivateKey);
+	},
+	doPOST: function doPOST(url, payload) {
+		console.log(BuildURL(Config, url));
+		// post
+		var fetchCfg = {
+			method: 'post',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
+			credentials: 'same-origin',
+			body: Params(payload)
+		};
+		return (0, _nodeFetch2.default)(BuildURL(Config, url), fetchCfg).catch(function (err) {
+			console.log('网络错误:', err);
+		});
+	},
+	doGET: function doGET(url, payload) {
+		// get
+	},
+	index: function index(payload) {
+		//获取抽奖首页
+		return API.doPOST('/lotteryPage', payload);
+	},
+	loot: function loot(payload) {
+		// 调用抽奖 payload:{userId:1}
+		return API.doPOST('/lotting', payload);
+	},
+	prizeList: function prizeList(payload) {
+		// 获取奖品列表 payload: {userId :1}
+		return API.doPOST('/prize/list', payload);
+	},
+	mission: function mission(payload) {
+		// 获取用户任务完成情况 payload:{userId:1}
+		return API.doPOST('/mission', payload);
+	},
+	checkIn: function checkIn(payload) {
+		return API.doPOST('/checkin', payload);
+	}
 
 };
 exports.API = API;
