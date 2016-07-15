@@ -4,8 +4,8 @@ import _ from 'lodash'
 const isBrowser = new Function('try {return this===window;}catch(e){ return false;}')
 const Config = {
 	'scheme': 'http://',
-	'host': 'api.shit0u.com',
-	'port': 9527,
+	'host':'api.shit0u.com',
+	'port':9527,
 	'prefix': '/ad-api/lottery',
 	'tokenPriveKey': 'an4@lx300#$o25#$',
 	'xPrivateKey': '45ryu230a@n2x302',
@@ -52,11 +52,10 @@ const API = {
 	getSign :(url,pubToken) => {
 		const md5 = require('md5')
 		let sign = new Buffer(md5(Config.prefix+url+pubToken+Config.signPrivateKey)).toString('base64')
-		// console.log(sign)
 		return sign
 	},
 	doPOST: (url, payload) => {
-		console.log(BuildURL(Config, url));
+		console.log('token,',store.get('token'))
 		let fetch = null;
 		if(isBrowser()){ fetch = window.fetch } 
 		if(!isBrowser()){ fetch = require('node-fetch') }  
@@ -66,8 +65,8 @@ const API = {
 			headers: {
 				'Content-Type':'application/x-www-form-urlencoded;charset=utf-8',
 				// 'userId':'1035',
-				// 'token':API.getToken('9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
-				// 'sign':API.getSign(url,'9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
+				// 'token':API.getToken(store.get('token')), //API.getToken('9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
+				// 'sign':API.getSign(url,store.get('token')),//API.getSign(url,'9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
 				// 'x':API.getX(new Date().getTime()+'')
 			},
 			credentials: 'same-origin',

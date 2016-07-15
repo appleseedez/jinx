@@ -14303,11 +14303,10 @@ var API = {
 	getSign: function getSign(url, pubToken) {
 		var md5 = require('md5');
 		var sign = new Buffer(md5(Config.prefix + url + pubToken + Config.signPrivateKey)).toString('base64');
-		// console.log(sign)
 		return sign;
 	},
 	doPOST: function doPOST(url, payload) {
-		console.log(BuildURL(Config, url));
+		console.log('token,', store.get('token'));
 		var fetch = null;
 		if (isBrowser()) {
 			fetch = window.fetch;
@@ -14961,7 +14960,7 @@ var PrizeList = function (_React$Component2) {
                 _react2.default.createElement(
                   'div',
                   { className: 'pic' },
-                  _react2.default.createElement('img', { src: v.prizeImage ? _config2.default.PIC_PREFIX + v.prizeImage : "img/prize_thu/hlg.png", alt: true })
+                  _react2.default.createElement('img', { src: v.prizeImage ? _config2.default.PIC_PREFIX + v.prizeImage + '-adsmall' : "img/prize_thu/hlg.png-adsmall", alt: true })
                 ),
                 _react2.default.createElement(
                   'div',
@@ -15151,7 +15150,6 @@ var Content = function (_React$Component4) {
         _api.API.prizeList({ userId: store.get('userId') }).then(function (res) {
           return res.json();
         }).then(function (res) {
-          console.log('prizeList:', JSON.stringify(res, null, 4));
           if (res.success) {
             _this5.setState({
               data: res.resultMap.entity || [],
@@ -15449,7 +15447,7 @@ var VirtualPop = function (_React$Component2) {
       var self = this;
       return _react2.default.createElement(
         'div',
-        { style: { height: '100%' } },
+        { style: { height: '0%' } },
         _react2.default.createElement('div', { className: 'cover-layer-mq' }),
         _react2.default.createElement(
           'div',
@@ -15519,7 +15517,7 @@ var MaterialPop = function (_React$Component3) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { style: { height: '100%' } },
+        { style: { height: '0%' } },
         _react2.default.createElement('div', { className: 'cover-layer-mq' }),
         _react2.default.createElement(
           'div',
@@ -15801,7 +15799,7 @@ var Index = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { style: { height: "100%" } },
-        this.state.pop && _react2.default.createElement(_pop2.default, { data: this.state.data, popType: this.popType, closeFun: function closeFun() {
+        this.state.pop && _react2.default.createElement(_pop2.default, { data: this.state.data, popType: this.state.popType, closeFun: function closeFun() {
             _this3.setState({ pop: false });
           } }),
         _react2.default.createElement(
@@ -15882,7 +15880,7 @@ var Index = function (_React$Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'pic' },
-                      _react2.default.createElement('img', { src: v.image ? _config2.default.PIC_PREFIX + v.image : "img/prize_thu/tg.png", alt: true })
+                      _react2.default.createElement('img', { src: v.image ? _config2.default.PIC_PREFIX + v.image + '-adsmall' : "img/prize_thu/tg.png-adsmall", alt: true })
                     ),
                     _react2.default.createElement(
                       'span',

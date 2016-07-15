@@ -124,7 +124,7 @@ class PrizeList extends React.Component {
                   <div className="prize-box">
                     <span className="num">{v.amount>1?'x'+v.amount:''}</span>
                     <div className="pic">
-                      <img src={v.prizeImage?GlobalConfig.PIC_PREFIX + v.prizeImage:"img/prize_thu/hlg.png"} alt />
+                      <img src={v.prizeImage?GlobalConfig.PIC_PREFIX + v.prizeImage + '-adsmall':"img/prize_thu/hlg.png-adsmall"} alt />
                     </div>
                     <div className="info">
                       <p className="name">{v.prizeName || 'GIFT'}</p>
@@ -204,7 +204,6 @@ class Content extends React.Component {
       API.prizeList({ userId:store.get('userId')})
       .then(res=>{ return res.json() })
       .then(res=>{
-        console.log('prizeList:',JSON.stringify(res,null,4))
         if (res.success) {
           this.setState({
             data:res.resultMap.entity || [],

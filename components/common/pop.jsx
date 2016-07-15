@@ -37,7 +37,7 @@ class VirtualPop extends React.Component {
   render () {
     let self = this
     return(
-      <div style={{height:'100%'}}>
+      <div style={{height:'0%'}}>
         <div className="cover-layer-mq" />
         <div className="pop-box-mq">
           <div className="logo-box">
@@ -66,7 +66,7 @@ class VirtualPop extends React.Component {
 class MaterialPop extends React.Component {
   render () {
     return (
-      <div style={{height:'100%'}}>
+      <div style={{height:'0%'}}>
         <div className="cover-layer-mq" />
         <div className="pop-box-mq">
           <div className="logo-box">

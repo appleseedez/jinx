@@ -138,7 +138,7 @@ class Index extends React.Component {
 
     return (
       <div style={{height:"100%"}}>
-      {this.state.pop && <Pop data={this.state.data} popType={this.popType} closeFun={()=>{this.setState ({pop:false})} }/>}
+      {this.state.pop && <Pop data={this.state.data} popType={this.state.popType} closeFun={()=>{this.setState ({pop:false})} }/>}
       <div className="index-mq">
         <div className="banner-box">
           <div className="banner" />
@@ -173,7 +173,7 @@ class Index extends React.Component {
                     data-lottery-unit-index={lotteryKeyMap[k]} key={k}>
                     <div className="cont-box">
                       <div className="pic">
-                        <img src={v.image ? GlobalConfig.PIC_PREFIX + v.image : "img/prize_thu/tg.png"} alt />
+                        <img src={v.image ? GlobalConfig.PIC_PREFIX + v.image + '-adsmall' : "img/prize_thu/tg.png-adsmall"} alt />
                       </div>
                       <span className="name">{ v.prizeName || 'JetPot' }</span>
                     </div>
