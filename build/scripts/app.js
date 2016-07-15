@@ -15358,6 +15358,8 @@ var LoginPop = function (_React$Component) {
   _createClass(LoginPop, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var self = this;
       return _react2.default.createElement(
         'div',
@@ -15366,7 +15368,9 @@ var LoginPop = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'pop-box-mq' },
-          _react2.default.createElement('span', { className: 'ico-close' }),
+          _react2.default.createElement('span', { className: 'ico-close', onClick: function onClick() {
+              window && window.activity && window.activity.finishActivity();
+            } }),
           _react2.default.createElement(
             'div',
             { className: 'logo-box' },
@@ -15405,7 +15409,9 @@ var LoginPop = function (_React$Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'btn-box', onClick: this.props.closeFun },
+            { className: 'btn-box', onClick: function onClick() {
+                _this2.context.router.push('/index');
+              } },
             _react2.default.createElement(
               'span',
               null,
@@ -15419,6 +15425,10 @@ var LoginPop = function (_React$Component) {
 
   return LoginPop;
 }(_react2.default.Component);
+
+LoginPop.contextTypes = {
+  router: _react2.default.PropTypes.object.isRequired
+};
 
 var VirtualPop = function (_React$Component2) {
   _inherits(VirtualPop, _React$Component2);
@@ -15518,7 +15528,7 @@ var MaterialPop = function (_React$Component3) {
           _react2.default.createElement(
             'div',
             { className: 'pic-box' },
-            _react2.default.createElement('img', { src: 'img/prize_pop/tg.png', alt: true })
+            _react2.default.createElement('img', { src: this.props.image || "img/prize_pop/tg.png", alt: true })
           ),
           _react2.default.createElement(
             'div',
@@ -15542,7 +15552,7 @@ var MaterialPop = function (_React$Component3) {
             _react2.default.createElement(
               'p',
               null,
-              '电弧：13518202113'
+              '电话：13518202113'
             ),
             _react2.default.createElement(
               'p',
@@ -15585,7 +15595,7 @@ var Pop = function (_React$Component4) {
           component = _react2.default.createElement(VirtualPop, _extends({}, this.props.data, { closeFun: this.props.closeFun }));
           break;
         case 'checkIn':
-          component = _react2.default.createElement(LoginPop, _extends({}, this.props.data, { closeFun: this.props.closeFun }));
+          component = _react2.default.createElement(LoginPop, this.props.data);
           break;
         default:
           component = _react2.default.createElement(MaterialPop, _extends({}, this.props.data, { closeFun: this.props.closeFun }));
