@@ -92,7 +92,7 @@ class Index extends React.Component {
           let timeout = setTimeout(function() {
             reject(new Exception('request timeout'))
           }, self.options.waiting-200)
-            API.loot({userId:1035})
+            API.loot({userId:store.get('userId')})
             .then(res=>{
               clearTimeout(timeout)
               return res.json()

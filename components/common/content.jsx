@@ -201,7 +201,7 @@ class Content extends React.Component {
   }
   componentDidMount() {
     if (this.props.params.type==='prize_list') {
-      API.prizeList({ userId:1035 })
+      API.prizeList({ userId:store.get('userId')})
       .then(res=>{ return res.json() })
       .then(res=>{
         console.log('prizeList:',JSON.stringify(res,null,4))

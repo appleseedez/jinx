@@ -15148,7 +15148,7 @@ var Content = function (_React$Component4) {
       var _this5 = this;
 
       if (this.props.params.type === 'prize_list') {
-        _api.API.prizeList({ userId: 1035 }).then(function (res) {
+        _api.API.prizeList({ userId: store.get('userId') }).then(function (res) {
           return res.json();
         }).then(function (res) {
           console.log('prizeList:', JSON.stringify(res, null, 4));
@@ -15759,7 +15759,7 @@ var Index = function (_React$Component) {
             var timeout = setTimeout(function () {
               reject(new Exception('request timeout'));
             }, self.options.waiting - 200);
-            _api.API.loot({ userId: 1035 }).then(function (res) {
+            _api.API.loot({ userId: store.get('userId') }).then(function (res) {
               clearTimeout(timeout);
               return res.json();
             }).then(function (res) {
