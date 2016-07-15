@@ -5,7 +5,7 @@ class Loading extends React.Component {
       <div className="loading-mq">
         <div className="loading-box">
           <span className="ico-loading" />
-          <p>Loading...</p>
+          <p>加载中...</p>
         </div>
       </div>
     )

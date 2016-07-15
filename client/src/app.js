@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Router, Route, Link, hashHistory } from 'react-router'
+import { Router, Route, Link, hashHistory,IndexRedirect } from 'react-router'
 
 import App from '../../components/app.jsx'
 import Index from '../../components/index.jsx'
@@ -11,7 +11,10 @@ class NoMatch extends React.Component {
   render () {
     return (
       <div className="loading-mq">
-        <p>打你哦...</p>
+        <div className="loading-box">
+          <span className="ico-loading" />
+          <p>不约...</p>
+        </div>
       </div>
     )
   }
@@ -23,7 +26,8 @@ render((
       <Route path="/index" component={Index} />
       <Route path="/content/:type" component={Content} />
       <Route path="/pop/:type" component={Pop} />
-      <Route path="*" component={NoMatch}/>
+      <Route path="/error" component={NoMatch}/>
+      <IndexRedirect to="/error" />
     </Route>
   </Router>
 ), document.getElementById('root'))

@@ -112,8 +112,14 @@ var lottery = {
 		_this.options.speed = _this.options.initSpeed;
 		_this.options.isRunning = false;
 		_this._enable();
+		_this.afterStop();
 	},
-
+	afterStop: function(){
+		var _this = this
+		if (_this.options.afterStop) {
+			_this.options.afterStop.call(_this);
+		}
+	},
 	// 抽奖之前的操作，支持用户追加操作
 	beforeRoll: function () {
 		var _this = lottery;
@@ -153,7 +159,6 @@ var lottery = {
 			this.options.aim.call(this);
 		} else {
 			this.options.target = parseInt(parseInt(Math.random() * 10) * this._count() / 10);
-			console.log(this.options.target);
 		}
 	}
 };

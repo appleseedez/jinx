@@ -52,7 +52,7 @@ const API = {
 	getSign :(url,pubToken) => {
 		const md5 = require('md5')
 		let sign = new Buffer(md5(Config.prefix+url+pubToken+Config.signPrivateKey)).toString('base64')
-		console.log(sign)
+		// console.log(sign)
 		return sign
 	},
 	doPOST: (url, payload) => {
@@ -65,10 +65,10 @@ const API = {
 			method: 'post',
 			headers: {
 				'Content-Type':'application/x-www-form-urlencoded;charset=utf-8',
-				'userId':'1035',
-				'token':API.getToken('9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
-				'sign':API.getSign(url,'9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
-				'x':API.getX(new Date().getTime()+'')
+				// 'userId':'1035',
+				// 'token':API.getToken('9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
+				// 'sign':API.getSign(url,'9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
+				// 'x':API.getX(new Date().getTime()+'')
 			},
 			credentials: 'same-origin',
 			body: Params(payload)

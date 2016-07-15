@@ -15,18 +15,18 @@ class Explain extends React.Component {
           <p>新用户注册：</p>
           <p>自动获得一次抽奖</p>
         </dd>
-        <dd>
+        <dd onClick={()=>{ window.activity.startInviteFriendsActivity() }}>
           <span className="num">2、</span>
           <p>邀请好友：</p>
           <p>好友注册时邀请码输入您的妙喵ID</p>
           <p>两人分别获得一次抽奖</p>
         </dd>
-        <dd>
+        <dd onClick={()=>{ window.activity.startShareFriendsCircleActivity() }}>
           <span className="num">3、</span>
           <p>分享朋友圈：</p>
           <p>获得一次抽奖（每位用户最多二次）</p>
         </dd>
-        <dd>
+        <dd onClick={()=>{ window.activity.startEditUserProfileActivity() }}>
           <span className="num">4、</span>
           <p>完善资料：</p>
           <p>资料完整度100%，同时上传8张头像，限首次可获得一次抽奖</p>
@@ -201,7 +201,7 @@ class Content extends React.Component {
   }
   componentDidMount() {
     if (this.props.params.type==='prize_list') {
-      API.prizeList({ userId:1034 })
+      API.prizeList({ userId:1035 })
       .then(res=>{ return res.json() })
       .then(res=>{
         console.log('prizeList:',JSON.stringify(res,null,4))
@@ -212,6 +212,10 @@ class Content extends React.Component {
           })
         }
        })
+    }else{
+      this.setState({
+        loading:false
+      })
     }
   }
   render () {
