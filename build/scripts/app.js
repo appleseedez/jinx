@@ -14452,10 +14452,10 @@ var NoMatch = function (_React$Component) {
   _react2.default.createElement(
     _reactRouter.Route,
     { path: '/', component: _app2.default },
-    _react2.default.createElement(_reactRouter.Route, { path: '/index', component: _index2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/index/:userId/:token', component: _index2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: '/content/:type', component: _content2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: '/pop/:type', component: _pop2.default }),
-    _react2.default.createElement(_reactRouter.Route, { path: '/error', component: NoMatch }),
+    _react2.default.createElement(_reactRouter.Route, { path: '*', component: NoMatch }),
     _react2.default.createElement(_reactRouter.IndexRedirect, { to: '/error' })
   )
 ), document.getElementById('root'));
@@ -15338,6 +15338,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _config = require('../../config');
+
+var _config2 = _interopRequireDefault(_config);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -15458,7 +15462,7 @@ var VirtualPop = function (_React$Component2) {
           _react2.default.createElement(
             'div',
             { className: 'pic-box' },
-            _react2.default.createElement('img', { src: 'img/prize_pop/520.png', alt: true })
+            _react2.default.createElement('img', { src: this.props.prizeImage ? _config2.default.PIC_PREFIX + this.props.prizeImage : "img/prize_pop/520.png", alt: true })
           ),
           _react2.default.createElement(
             'div',
@@ -15528,7 +15532,7 @@ var MaterialPop = function (_React$Component3) {
           _react2.default.createElement(
             'div',
             { className: 'pic-box' },
-            _react2.default.createElement('img', { src: this.props.image || "img/prize_pop/tg.png", alt: true })
+            _react2.default.createElement('img', { src: this.props.prizeImage ? _config2.default.PIC_PREFIX + this.props.prizeImage : "img/prize_pop/tg.png", alt: true })
           ),
           _react2.default.createElement(
             'div',
@@ -15614,7 +15618,7 @@ Pop.defaultProps = {
 
 exports.default = Pop;
 
-},{"react":331,"react-router":183}],64:[function(require,module,exports){
+},{"../../config":65,"react":331,"react-router":183}],64:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15673,6 +15677,7 @@ var Index = function (_React$Component) {
       pop: false,
       prize: {}
     };
+
     return _this;
   }
 
@@ -15681,6 +15686,15 @@ var Index = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      if (!store.enabled) {
+        this.context.router.push('/error');
+      }
+      store.set('userId', this.props.params.userId);
+      store.set('token', this.props.params.token);
+
+      if (!store.get('userId')) {
+        this.context.router.push('/error');
+      }
       prizeItemKeyMap = {};
       lotteryKeyMap = { // 键盘九宫格位置到实际编号的映射
         0: 0,
@@ -15692,7 +15706,7 @@ var Index = function (_React$Component) {
         7: 5,
         8: 4
       };
-      _api.API.index({ userId: 1035 }).then(function (res) {
+      _api.API.index({ userId: store.get('userId') }).then(function (res) {
         return res.json();
       }).then(function (res) {
         console.log('index:', JSON.stringify(res, null, 4));
@@ -15910,6 +15924,9 @@ var Index = function (_React$Component) {
   return Index;
 }(_react2.default.Component);
 
+Index.contextTypes = {
+  router: _react2.default.PropTypes.object.isRequired
+};
 exports.default = Index;
 
 },{"../api":56,"../config":65,"./common/loading.jsx":61,"./common/pop.jsx":63,"bluebird":66,"lodash":142,"react":331,"react-router":183}],65:[function(require,module,exports){

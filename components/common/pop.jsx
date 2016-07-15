@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
+import GlobalConfig from '../../config'
 class LoginPop extends React.Component {
   render () {
     let self = this
@@ -43,7 +44,7 @@ class VirtualPop extends React.Component {
             <span className="ico-logo" />
           </div>
           <div className="pic-box">
-            <img src="img/prize_pop/520.png" alt />
+            <img src={ this.props.prizeImage ?(GlobalConfig.PIC_PREFIX + this.props.prizeImage):"img/prize_pop/520.png" } alt />
           </div>
           <div className="info-box">
             <p className="tit cash">秒喵现金已到账</p>
@@ -72,7 +73,7 @@ class MaterialPop extends React.Component {
             <span className="ico-logo" />
           </div>
           <div className="pic-box">
-            <img src={this.props.image || "img/prize_pop/tg.png" } alt />
+            <img src={this.props.prizeImage?(GlobalConfig.PIC_PREFIX + this.props.prizeImage) :"img/prize_pop/tg.png" } alt />
           </div>
           <div className="info-box">
             <p className="tit">天啦噜，抽中<em>{ this.props.prizeName || '豪华泰国旅游' }</em>啦</p>

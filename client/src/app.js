@@ -23,10 +23,10 @@ class NoMatch extends React.Component {
 render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
-      <Route path="/index" component={Index} />
+      <Route path="/index/:userId/:token" component={Index} />
       <Route path="/content/:type" component={Content} />
       <Route path="/pop/:type" component={Pop} />
-      <Route path="/error" component={NoMatch}/>
+      <Route path="*" component={NoMatch}/>
       <IndexRedirect to="/error" />
     </Route>
   </Router>

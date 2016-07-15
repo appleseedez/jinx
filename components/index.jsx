@@ -17,8 +17,18 @@ class Index extends React.Component {
       pop:false,
       prize:{}
     }
+   
   }
   componentDidMount() {
+    if(!store.enabled){
+      this.context.router.push('/error')
+    }
+    store.set('userId',this.props.params.userId)
+    store.set('token',this.props.params.token)
+
+    if(!store.get('userId')){
+      this.context.router.push('/error')
+    }
     prizeItemKeyMap = {}
     lotteryKeyMap = { // 键盘九宫格位置到实际编号的映射
       0:0,
@@ -30,7 +40,7 @@ class Index extends React.Component {
       7:5,
       8:4
     }
-    API.index({ userId: 1035 })
+    API.index({ userId: store.get('userId') })
       .then(res => { return res.json() })
       .then(res => {
         console.log('index:', JSON.stringify(res, null, 4))
@@ -186,5 +196,7 @@ class Index extends React.Component {
     )
   }
 }
-
+Index.contextTypes = {
+  router:React.PropTypes.object.isRequired
+}
 export default Index;
