@@ -4,8 +4,8 @@ import _ from 'lodash'
 const isBrowser = new Function('try {return this===window;}catch(e){ return false;}')
 const Config = {
 	'scheme': 'http://',
-	'host':'api.shit0u.com',
-	'port':9527,
+	'host':'192.168.31.72',  //'api.shit0u.com',
+	'port':8082,//9527,
 	'prefix': '/ad-api/lottery',
 	'tokenPriveKey': 'an4@lx300#$o25#$',
 	'xPrivateKey': '45ryu230a@n2x302',
@@ -64,10 +64,10 @@ const API = {
 			method: 'post',
 			headers: {
 				'Content-Type':'application/x-www-form-urlencoded;charset=utf-8',
-				// 'userId':'1035',
-				// 'token':API.getToken(store.get('token')), //API.getToken('9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
-				// 'sign':API.getSign(url,store.get('token')),//API.getSign(url,'9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
-				// 'x':API.getX(new Date().getTime()+'')
+				'userId':store.get('userId'),//'1035',
+				'token':API.getToken(store.get('token')), //API.getToken('9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
+				'sign':API.getSign(url,store.get('token')),//API.getSign(url,'9df101bd-78cb-3e55-b416-a5aa23fd28aa'),
+				'x':API.getX(new Date().getTime()+'')
 			},
 			credentials: 'same-origin',
 			body: Params(payload)
