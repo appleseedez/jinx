@@ -1,37 +1,37 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import GlobalConfig from '../../config'
-class LoginPop extends React.Component {
-  render () {
-    let self = this
-    return (
-      <div style={{height:'100%'}}>
-        <div className="cover-layer-mq" />
-        <div className="pop-box-mq">
-          <span className="ico-close" onClick={()=>{window && window.activity && window.activity.finishActivity()}} />
-          <div className="logo-box">
-            <span className="ico-logo" />
-          </div>
-          <div className="pic-box">
-            <img src="img/prize_pop/qd_pop.png" alt />
-          </div>
-          <div className="info-box">
-            <p className="tip">您有<em>1</em>次抽奖机会</p>
-            <p className="dk">在连续登录2天获得<em>1</em>次抽奖机会</p>
-          </div>
-          <div className="btn-box" onClick={()=>{ this.context.router.push('/index') }}> 
-            <span>去抽奖</span>
-          </div>
-        </div>
-      </div>
+// class LoginPop extends React.Component {
+//   render () {
+//     let self = this
+//     return (
+//       <div style={{height:'100%'}}>
+//         <div className="cover-layer-mq" />
+//         <div className="pop-box-mq">
+//           <span className="ico-close" onClick={()=>{GlobalConfig['FinishActivity']()}} />
+//           <div className="logo-box">
+//             <span className="ico-logo" />
+//           </div>
+//           <div className="pic-box">
+//             <img src="img/prize_pop/qd_pop.png" alt />
+//           </div>
+//           <div className="info-box">
+//             <p className="tip">您有<em>1</em>次抽奖机会</p>
+//             <p className="dk">在连续登录2天获得<em>1</em>次抽奖机会</p>
+//           </div>
+//           <div className="btn-box" onClick={()=>{ this.context.router.push('/index') }}> 
+//             <span>去抽奖</span>
+//           </div>
+//         </div>
+//       </div>
 
-    )
-  }
-}
+//     )
+//   }
+// }
 
-LoginPop.contextTypes = {
-  router:React.PropTypes.object.isRequired
-}
+// LoginPop.contextTypes = {
+//   router:React.PropTypes.object.isRequired
+// }
 
 class VirtualPop extends React.Component {
   render () {
@@ -96,9 +96,6 @@ class Pop extends React.Component {
     switch (this.props.params &&  this.props.params.type || this.props.popType) {
       case 'virtual':
         component = <VirtualPop {...this.props.data} closeFun={this.props.closeFun}/>
-        break
-      case 'checkIn':
-        component =  <LoginPop {...this.props.data}/>
         break
       default:
         component = <MaterialPop {...this.props.data} closeFun={this.props.closeFun} />

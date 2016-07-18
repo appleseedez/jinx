@@ -23,9 +23,10 @@ class Index extends React.Component {
     if(!store.enabled){
       this.context.router.push('/error')
     }
-    store.set('userId',this.props.params.userId)
-    store.set('token',this.props.params.token)
-
+    store.set('userId',decodeURIComponent(this.props.params.userId))
+    store.set('token',decodeURIComponent(this.props.params.token) )
+    API.setTokenKey(decodeURIComponent(this.props.params.tokenPK))
+    API.setSignKey(decodeURIComponent(this.props.params.signPK))
     if(!store.get('userId')){
       this.context.router.push('/error')
     }

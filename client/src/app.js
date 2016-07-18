@@ -6,6 +6,7 @@ import App from '../../components/app.jsx'
 import Index from '../../components/index.jsx'
 import Content from '../../components/common/content.jsx'
 import Pop from '../../components/common/pop.jsx'
+import CheckIn from '../../components/checkin.jsx'
 
 class NoMatch extends React.Component {
   render () {
@@ -23,9 +24,10 @@ class NoMatch extends React.Component {
 render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
-      <Route path="/index/:userId/:token" component={Index} />
+      <Route path="/index/:userId/:token/:tokenPK/:signPK" component={Index} />
       <Route path="/content/:type" component={Content} />
       <Route path="/pop/:type" component={Pop} />
+      <Route path="/checkin/:residue/:willChances/:willDays" component={CheckIn} />
       <Route path="*" component={NoMatch}/>
       <IndexRedirect to="/error" />
     </Route>

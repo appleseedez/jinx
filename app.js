@@ -12,7 +12,7 @@ app.use('/static',express.static(__dirname+'/build'))
 
 
 app.listen(9527,()=>{
-  console.log('Starting server at 9999');
+  console.log('Starting server at 9527');
 })
 
 

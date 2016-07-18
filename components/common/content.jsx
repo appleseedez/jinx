@@ -4,6 +4,7 @@ import GlobalConfig from '../../config'
 import { API } from '../../api'
 import Loading from './loading.jsx'
 class Explain extends React.Component {
+
   render () {
     return (
       <dl className="explain-mq">
@@ -15,18 +16,18 @@ class Explain extends React.Component {
           <p>新用户注册：</p>
           <p>自动获得一次抽奖</p>
         </dd>
-        <dd onClick={()=>{ window.activity.startInviteFriendsActivity() }}>
+        <dd onClick={()=>{ GlobalConfig.callbackFacade('InvideFriends')() }}>
           <span className="num">2、</span>
           <p>邀请好友：</p>
           <p>好友注册时邀请码输入您的妙喵ID</p>
           <p>两人分别获得一次抽奖</p>
         </dd>
-        <dd onClick={()=>{ window.activity.startShareFriendsCircleActivity() }}>
+        <dd onClick={()=>{ GlobalConfig.callbackFacade('ShareFriendsCircle')() }}>
           <span className="num">3、</span>
           <p>分享朋友圈：</p>
           <p>获得一次抽奖（每位用户最多二次）</p>
         </dd>
-        <dd onClick={()=>{ window.activity.startEditUserProfileActivity() }}>
+        <dd onClick={()=>{ GlobalConfig.callbackFacade('StartEditUserProfile')() }}>
           <span className="num">4、</span>
           <p>完善资料：</p>
           <p>资料完整度100%，同时上传8张头像，限首次可获得一次抽奖</p>

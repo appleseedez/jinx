@@ -2,14 +2,14 @@ import 'es6-promise'
 import 'whatwg-fetch'
 import _ from 'lodash'
 const isBrowser = new Function('try {return this===window;}catch(e){ return false;}')
-const Config = {
+let Config = {
 	'scheme': 'http://',
 	'host':'192.168.31.72',  //'api.shit0u.com',
 	'port':8082,//9527,
-	'prefix': '/ad-api/lottery',
-	'tokenPriveKey': 'an4@lx300#$o25#$',
+	'prefix': '/ad-api/ad/lottery',
+	'tokenPriveKey': null, // an4@lx300#$o25#$
 	'xPrivateKey': '45ryu230a@n2x302',
-	'signPrivateKey':'mIo98aiqing'
+	'signPrivateKey':null // mIo98aiqing
 }
 const Params = (obj) => {
 	if (!obj || _.size(obj) === 0) {
@@ -25,9 +25,15 @@ const BuildURL = (config, url) => {
 	return config.scheme + config.host + ':' + config.port + config.prefix + url
 }
 const API = {
+	setTokenKey:(value)=>{
+		Config['tokenPriveKey'] = value
+	},
+	setSignKey:(value)=>{
+		Config['signPrivateKey'] = value
+	},
 	aesGen: (pub, privateKey) => {
-		if (!privateKey) {
-			throw new Exception('无法加密,pk未提供')
+		if (!privateKey||privateKey.length!==16) {
+			throw '无法加密,pk未提供'
 		}
 		
 		let forge = null
@@ -44,12 +50,14 @@ const API = {
 		return priv
 	},
 	getToken: (pubToken) => {
+		if(null === Config.tokenPriveKey) return ''
 		return API.aesGen(pubToken, Config.tokenPriveKey)
 	},
 	getX: (timestamp) => {
 		return API.aesGen(timestamp, Config.xPrivateKey)
 	},
 	getSign :(url,pubToken) => {
+		if(null === Config.signPrivateKey)return ''
 		const md5 = require('md5')
 		let sign = new Buffer(md5(Config.prefix+url+pubToken+Config.signPrivateKey)).toString('base64')
 		return sign
