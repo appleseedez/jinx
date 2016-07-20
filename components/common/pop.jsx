@@ -36,6 +36,27 @@ import GlobalConfig from '../../config'
 class VirtualPop extends React.Component {
   render () {
     let self = this
+    let info = null 
+    if(this.props.prizeType === 'VIP'){
+      info = (
+          <div className="info-box">
+            <p className="tit cash">您已享有VIP特权</p>
+            <p>VIP可以横着走哦</p>
+            <p>快到处逛逛炫一下</p>
+            <p className="dk">我的-钱包中查看</p>
+          </div>   
+      )
+    }else{
+       info = (
+          <div className="info-box">
+            <p className="tit cash">妙喵现金已到账</p>
+            <p>发红包勾搭TA</p>
+            <p>移驾单身市场</p>
+            <p className="dk">我的-钱包中查看</p>
+          </div>
+       )
+
+    }
     return(
       <div style={{height:'0%'}}>
         <div className="cover-layer-mq" />
@@ -46,12 +67,7 @@ class VirtualPop extends React.Component {
           <div className="pic-box">
             <img src={ this.props.prizeImage ?(GlobalConfig.PIC_PREFIX + this.props.prizeImage):"img/prize_pop/520.png" } alt />
           </div>
-          <div className="info-box">
-            <p className="tit cash">秒喵现金已到账</p>
-            <p>发红包勾搭TA</p>
-            <p>移驾单身市场</p>
-            <p className="dk">我的-钱包中查看</p>
-          </div>
+          {info}
           <div className="btn-box" onClick={this.props.closeFun}>
             <span>继续抽奖</span>
           </div>

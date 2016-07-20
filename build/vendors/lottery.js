@@ -158,7 +158,7 @@ var lottery = {
 		if (this.options.aim) {
 			this.options.aim.call(this);
 		} else {
-			this.options.target = parseInt(parseInt(Math.random() * 10) * this._count() / 10);
+			this.options.target = 8;//parseInt(parseInt(Math.random() * 10) * this._count() / 10);
 		}
 	}
 };

@@ -34,7 +34,7 @@ textarea{overflow:auto}
 optgroup{font-weight:bold}
 table{border-collapse:collapse;border-spacing:0}
 td,th{padding:0}
-body{background-color:#7e95c7;overflow: hidden;font-size: 12px;color:#585858;}
+body{overflow: hidden;font-size: 12px;color:#585858;}
 
 
 .content-mq{width: 5.8rem;padding-top:44px;margin:0 auto;}
@@ -42,6 +42,7 @@ body{background-color:#7e95c7;overflow: hidden;font-size: 12px;color:#585858;}
 
 /* main */
 .viewport-mq{height: 100%;background-color: #ededed; overflow:auto;-webkit-overflow-scrolling:touch;}
+.viewport-mq.transparent{background-color: transparent;}
 .nav-mq{position: fixed;top: 0;width: 100%; height: 44px;background-color: #ff4855;z-index: 9999;}
 .nav-mq .back{position: absolute;left: 0; display: inline-block; width: 44px;height: 44px;background: url(../img/nav_ico.png) center center no-repeat;background-size:8px;}
 .nav-mq h1{height: 44px; line-height: 44px; font-size: 16px;text-align: center;color: #fff; font-weight: normal;}
@@ -129,8 +130,8 @@ body{background-color:#7e95c7;overflow: hidden;font-size: 12px;color:#585858;}
 .pop-box-mq{position: fixed;left: 50%;top:50%; width: 5.6rem;margin-top: -4.19rem;margin-left: -2.8rem;z-index: 10001;}
 .pop-box-mq .logo-box{position: relative; height: 1.36rem;}
 .pop-box-mq .logo-box .ico-logo{position: absolute;left: 50%;top:0; display: inline-block; height: 1.58rem;width: 2.77rem;margin-left: -1.38rem; background-image: url(../img/logo.png);background-position: center bottom; background-size: cover;background-repeat: no-repeat;}
-.pop-box-mq .pic-box{height: 3.46rem;}
-.pop-box-mq .pic-box img{width: 100%; height: 100%;}
+.pop-box-mq .pic-box{height: 3.46rem;background-color: #fff;}
+.pop-box-mq .pic-box img{width: 100%; height: 100%;} 
 .pop-box-mq .info-box{position: relative; height: 2.56rem;background-color: #fff;text-align: center;}
 .pop-box-mq .info-box p{font-size: .24rem;line-height: .24rem;padding-top: .28rem;}
 .pop-box-mq .info-box .tit{font-size: .3rem;line-height: .3rem;}
@@ -145,7 +146,7 @@ body{background-color:#7e95c7;overflow: hidden;font-size: 12px;color:#585858;}
 .pop-box-mq .ico-close{position: absolute;right: -.22rem;top: 1.36rem;display: inline-block; width: .8rem;height: .8rem;margin-top: -.22rem; background-image: url(../img/prize_pop/pop_clo.png);background-position: 0 0; background-size: contain;background-repeat: no-repeat;}
 
 /* loading */
-.loading-mq{ height: 100%; width: 100%;background-color: #fff;}
+.loading-mq{ height: 100%; width: 100%;background-color: #fff}
 .loading-mq .loading-box{position: fixed;top: 50%;left: 0;width: 100%;margin-top: -1.2rem; text-align: center;}
 .loading-mq .ico-loading{display: inline-block; height: 2.1rem;width: 3rem;background-image: url(../img/loading.gif);background-position: 0 0; background-size: contain;background-repeat: no-repeat; }
 .loading-mq p{font-size: .24rem;line-height: .24rem;color: #b5b5b5;}

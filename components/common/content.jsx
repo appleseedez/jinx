@@ -16,18 +16,18 @@ class Explain extends React.Component {
           <p>新用户注册：</p>
           <p>自动获得一次抽奖</p>
         </dd>
-        <dd onClick={()=>{ GlobalConfig.callbackFacade('InvideFriends')() }}>
+        <dd>
           <span className="num">2、</span>
           <p>邀请好友：</p>
           <p>好友注册时邀请码输入您的妙喵ID</p>
           <p>两人分别获得一次抽奖</p>
         </dd>
-        <dd onClick={()=>{ GlobalConfig.callbackFacade('ShareFriendsCircle')() }}>
+        <dd>
           <span className="num">3、</span>
           <p>分享朋友圈：</p>
           <p>获得一次抽奖（每位用户最多二次）</p>
         </dd>
-        <dd onClick={()=>{ GlobalConfig.callbackFacade('StartEditUserProfile')() }}>
+        <dd>
           <span className="num">4、</span>
           <p>完善资料：</p>
           <p>资料完整度100%，同时上传8张头像，限首次可获得一次抽奖</p>
@@ -153,22 +153,22 @@ class More extends React.Component {
   <div className="more-chance-mq">
         <div className="top-tip">
           <p>完成任务</p>
-          <p>抽奖次数可累加</p>
+          <p>获得更多抽奖次数</p>
         </div>
         <ul className="task-list-mq">
-          <li className="task-item">
+          <li className="task-item" onClick={()=>{ GlobalConfig.callbackFacade('InvideFriends')() }}>
             <span className="ico ico-yq" />
             <p className="tit">邀请朋友（填写邀请码）</p>
             <p className="brief">邀请人+1次</p>
             <p className="brief">被邀请人+1次</p>
           </li>
-          <li className="task-item">
+          <li className="task-item" onClick={()=>{ GlobalConfig.callbackFacade('ShareFriendsCircle')() }}>
             <span className="ico ico-pyq" />
             <p className="tit">分享朋友圈</p>
             <p className="brief">分享一次获得+1次</p>
             <p className="brief">最多+2次</p>
           </li>
-          <li className="task-item">
+          <li className="task-item"  onClick={()=>{ GlobalConfig.callbackFacade('StartEditUserProfile')() }}>
             <span className="ico ico-zl" />
             <p className="tit">完善资料</p>
             <p className="brief">100%资料完整（包括8张头像）</p>

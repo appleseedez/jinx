@@ -51,7 +51,9 @@ class Index extends React.Component {
             rows: res.resultMap.rows || [],
             loading: false
           }, () => {
-            this._setup()
+            // if(parseInt(res.resultMap.entity.chanceCount)>0){
+                this._setup()
+            // }
 
           })
         }
@@ -73,19 +75,28 @@ class Index extends React.Component {
       initSpeed: 500,  // 初始转动速度
       upStep: 100,   // 加速滚动步长
       upMax: 100,   // 速度上限
-      downStep: 30,   // 减速滚动步长
-      downMax: 500,  // 减速上限
-      waiting: 1500, // 匀速转动时长
+      downStep: 60,   // 减速滚动步长
+      downMax: 360,  // 减速上限
+      waiting: 2000, // 匀速转动时长
       afterStop: function () {
-        component.setState({
-          pop:true
-        })
+        if(this.options.target !== 8){
+          component.setState({
+            pop:true
+          })
+        }else{
+          component.setState({
+            pop:false
+          })
+        }
+
       },
       beforeRoll: function () { 
         let self = this
+        self.options.target = 8  
         self.options.aim = ()=>{
 
         }
+
         // 做数据请求, 并且限定超时时间为 <= waiting
         let Promise = require('bluebird') 
         new Promise((resolve,reject)=>{
@@ -106,21 +117,38 @@ class Index extends React.Component {
                   remainChance:res.resultMap.entity.remainTimes,
                   popType:(res.resultMap.entity.virtual?'virtual':'material'),
                   pop:false,
-                  data:res.resultMap.entity
+                  data:res.resultMap.entity,
+                  // uid:decodeURIComponent(self.props.params.userId),
+                  // token:decodeURIComponent(self.props.params.token),
+                  // tk:decodeURIComponent(self.props.params.tokenPK),
+                  // sk:decodeURIComponent(self.props.params.signPK)
                 })
               }
+            })
+            .catch(err=>{
+              reject(err)
+              self.options.target = 8
+              self.options.aim = null
             })
         })
         .then(()=>{
 
         })
         .catch((err)=>{
-          self.options.target = 7
+          console.log('error')
+          self.options.target = 8
           self.options.aim = null
         })
       }
     })
+    if(parseInt(this.state.remainChance) === 0){
+      let component  = this
+      $('#lotteryGo').off('click').on('click',()=>{
+          component.context.router.push('/content/more')
+          return false
+      })
 
+    }
 
     $('#lotteryGo').on('click', function () {
       var $that = $(this);
@@ -160,7 +188,7 @@ class Index extends React.Component {
               _.map(this.state.rows, (v, k) => {
                 if (k === 4) {
                   return (
-                    <li className="lottery-unit start" id="lotteryGo" key={k}>
+                    <li className="lottery-unit start" id="lotteryGo" key={k} data-lottery-unit-index={8}>
                       <div className="cont-box">
                         <span>充满希望来一发</span>
                       </div>

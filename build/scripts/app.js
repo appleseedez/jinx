@@ -14470,7 +14470,7 @@ var NoMatch = function (_React$Component) {
     _react2.default.createElement(_reactRouter.Route, { path: '/index/:userId/:token/:tokenPK/:signPK', component: _index2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: '/content/:type', component: _content2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: '/pop/:type', component: _pop2.default }),
-    _react2.default.createElement(_reactRouter.Route, { path: '/checkin/:residue/:willChances/:willDays', component: _checkin2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/checkin/:residue/:willChances/:willDays/:userId/:token/:tokenPK/:signPK', component: _checkin2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: '*', component: NoMatch }),
     _react2.default.createElement(_reactRouter.IndexRedirect, { to: '/error' })
   )
@@ -14519,13 +14519,18 @@ var App = function (_React$Component) {
     key: 'render',
     value: function render() {
       var navbar = _react2.default.createElement(_nav2.default, null);
-      if ('checkIn' === this.props.params.type) {
+      if (this.props.location.pathname.indexOf('checkin') !== -1) {
         navbar = null;
+        $('#root').addClass('transparent');
+      } else {
+        $('#root').removeClass('transparent');
+        if (window && window.webkit && window.webkit.messageHandlers) {
+          window.webkit.messageHandlers['changeColor'].postMessage('ChangeColor');
+        }
       }
       if (this.props.location.pathname.indexOf('/index') !== -1) {
         navbar = _react2.default.createElement(_nav2.default, { root: true });
       }
-
       console.log(this.props.location);
       return _react2.default.createElement(
         'div',
@@ -14583,9 +14588,14 @@ var CheckIn = function (_React$Component) {
       var _this2 = this;
 
       var self = this;
+      var userId = encodeURIComponent(decodeURIComponent(this.props.params.userId));
+      var token = encodeURIComponent(decodeURIComponent(this.props.params.token));
+      var tokenPK = encodeURIComponent(decodeURIComponent(this.props.params.tokenPK));
+      var signPK = encodeURIComponent(decodeURIComponent(this.props.params.signPK));
+      var url = '/index/' + userId + '/' + token + '/' + tokenPK + '/' + signPK;
       return _react2.default.createElement(
         'div',
-        { style: { height: '100%' } },
+        { style: { height: '0%' } },
         _react2.default.createElement('div', { className: 'cover-layer-mq' }),
         _react2.default.createElement(
           'div',
@@ -14609,7 +14619,7 @@ var CheckIn = function (_React$Component) {
             _react2.default.createElement(
               'p',
               { className: 'tip' },
-              '您有',
+              '已获得',
               _react2.default.createElement(
                 'em',
                 null,
@@ -14617,10 +14627,10 @@ var CheckIn = function (_React$Component) {
               ),
               '次抽奖机会'
             ),
-            _react2.default.createElement(
+            parseInt(this.props.params.willChances) > 0 && _react2.default.createElement(
               'p',
               { className: 'dk' },
-              '在连续登录',
+              '再连续登录',
               _react2.default.createElement(
                 'em',
                 null,
@@ -14638,7 +14648,7 @@ var CheckIn = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'btn-box', onClick: function onClick() {
-                _this2.context.router.push('/index');
+                _this2.context.router.push(url);
               } },
             _react2.default.createElement(
               'span',
@@ -14740,9 +14750,7 @@ var Explain = function (_React$Component) {
         ),
         _react2.default.createElement(
           'dd',
-          { onClick: function onClick() {
-              _config2.default.callbackFacade('InvideFriends')();
-            } },
+          null,
           _react2.default.createElement(
             'span',
             { className: 'num' },
@@ -14766,9 +14774,7 @@ var Explain = function (_React$Component) {
         ),
         _react2.default.createElement(
           'dd',
-          { onClick: function onClick() {
-              _config2.default.callbackFacade('ShareFriendsCircle')();
-            } },
+          null,
           _react2.default.createElement(
             'span',
             { className: 'num' },
@@ -14787,9 +14793,7 @@ var Explain = function (_React$Component) {
         ),
         _react2.default.createElement(
           'dd',
-          { onClick: function onClick() {
-              _config2.default.callbackFacade('StartEditUserProfile')();
-            } },
+          null,
           _react2.default.createElement(
             'span',
             { className: 'num' },
@@ -15163,7 +15167,7 @@ var More = function (_React$Component3) {
           _react2.default.createElement(
             'p',
             null,
-            '抽奖次数可累加'
+            '获得更多抽奖次数'
           )
         ),
         _react2.default.createElement(
@@ -15171,7 +15175,9 @@ var More = function (_React$Component3) {
           { className: 'task-list-mq' },
           _react2.default.createElement(
             'li',
-            { className: 'task-item' },
+            { className: 'task-item', onClick: function onClick() {
+                _config2.default.callbackFacade('InvideFriends')();
+              } },
             _react2.default.createElement('span', { className: 'ico ico-yq' }),
             _react2.default.createElement(
               'p',
@@ -15191,7 +15197,9 @@ var More = function (_React$Component3) {
           ),
           _react2.default.createElement(
             'li',
-            { className: 'task-item' },
+            { className: 'task-item', onClick: function onClick() {
+                _config2.default.callbackFacade('ShareFriendsCircle')();
+              } },
             _react2.default.createElement('span', { className: 'ico ico-pyq' }),
             _react2.default.createElement(
               'p',
@@ -15211,7 +15219,9 @@ var More = function (_React$Component3) {
           ),
           _react2.default.createElement(
             'li',
-            { className: 'task-item' },
+            { className: 'task-item', onClick: function onClick() {
+                _config2.default.callbackFacade('StartEditUserProfile')();
+              } },
             _react2.default.createElement('span', { className: 'ico ico-zl' }),
             _react2.default.createElement(
               'p',
@@ -15533,6 +15543,58 @@ var VirtualPop = function (_React$Component) {
     key: 'render',
     value: function render() {
       var self = this;
+      var info = null;
+      if (this.props.prizeType === 'VIP') {
+        info = _react2.default.createElement(
+          'div',
+          { className: 'info-box' },
+          _react2.default.createElement(
+            'p',
+            { className: 'tit cash' },
+            '您已享有VIP特权'
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            'VIP可以横着走哦'
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            '快到处逛逛炫一下'
+          ),
+          _react2.default.createElement(
+            'p',
+            { className: 'dk' },
+            '我的-钱包中查看'
+          )
+        );
+      } else {
+        info = _react2.default.createElement(
+          'div',
+          { className: 'info-box' },
+          _react2.default.createElement(
+            'p',
+            { className: 'tit cash' },
+            '妙喵现金已到账'
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            '发红包勾搭TA'
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            '移驾单身市场'
+          ),
+          _react2.default.createElement(
+            'p',
+            { className: 'dk' },
+            '我的-钱包中查看'
+          )
+        );
+      }
       return _react2.default.createElement(
         'div',
         { style: { height: '0%' } },
@@ -15550,30 +15612,7 @@ var VirtualPop = function (_React$Component) {
             { className: 'pic-box' },
             _react2.default.createElement('img', { src: this.props.prizeImage ? _config2.default.PIC_PREFIX + this.props.prizeImage : "img/prize_pop/520.png", alt: true })
           ),
-          _react2.default.createElement(
-            'div',
-            { className: 'info-box' },
-            _react2.default.createElement(
-              'p',
-              { className: 'tit cash' },
-              '秒喵现金已到账'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              '发红包勾搭TA'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              '移驾单身市场'
-            ),
-            _react2.default.createElement(
-              'p',
-              { className: 'dk' },
-              '我的-钱包中查看'
-            )
-          ),
+          info,
           _react2.default.createElement(
             'div',
             { className: 'btn-box', onClick: this.props.closeFun },
@@ -15800,7 +15839,9 @@ var Index = function (_React$Component) {
             rows: res.resultMap.rows || [],
             loading: false
           }, function () {
+            // if(parseInt(res.resultMap.entity.chanceCount)>0){
             _this2._setup();
+            // }
           });
         }
       });
@@ -15816,6 +15857,8 @@ var Index = function (_React$Component) {
   }, {
     key: '_setup',
     value: function _setup() {
+      var _this3 = this;
+
       var component = this;
       lottery.lottery({
         selector: '#lottery',
@@ -15825,17 +15868,25 @@ var Index = function (_React$Component) {
         initSpeed: 500, // 初始转动速度
         upStep: 100, // 加速滚动步长
         upMax: 100, // 速度上限
-        downStep: 30, // 减速滚动步长
-        downMax: 500, // 减速上限
-        waiting: 1500, // 匀速转动时长
+        downStep: 60, // 减速滚动步长
+        downMax: 360, // 减速上限
+        waiting: 2000, // 匀速转动时长
         afterStop: function afterStop() {
-          component.setState({
-            pop: true
-          });
+          if (this.options.target !== 8) {
+            component.setState({
+              pop: true
+            });
+          } else {
+            component.setState({
+              pop: false
+            });
+          }
         },
         beforeRoll: function beforeRoll() {
           var self = this;
+          self.options.target = 8;
           self.options.aim = function () {};
+
           // 做数据请求, 并且限定超时时间为 <= waiting
           var Promise = require('bluebird');
           new Promise(function (resolve, reject) {
@@ -15857,13 +15908,27 @@ var Index = function (_React$Component) {
                   data: res.resultMap.entity
                 });
               }
+            }).catch(function (err) {
+              reject(err);
+              self.options.target = 8;
+              self.options.aim = null;
             });
           }).then(function () {}).catch(function (err) {
-            self.options.target = 7;
+            console.log('error');
+            self.options.target = 8;
             self.options.aim = null;
           });
         }
       });
+      if (parseInt(this.state.remainChance) === 0) {
+        (function () {
+          var component = _this3;
+          $('#lotteryGo').off('click').on('click', function () {
+            component.context.router.push('/content/more');
+            return false;
+          });
+        })();
+      }
 
       $('#lotteryGo').on('click', function () {
         var $that = $(this);
@@ -15876,7 +15941,7 @@ var Index = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.state.loading) {
         return _react2.default.createElement(_loading2.default, null);
@@ -15886,7 +15951,7 @@ var Index = function (_React$Component) {
         'div',
         { style: { height: "100%" } },
         this.state.pop && _react2.default.createElement(_pop2.default, { data: this.state.data, popType: this.state.popType, closeFun: function closeFun() {
-            _this3.setState({ pop: false });
+            _this4.setState({ pop: false });
           } }),
         _react2.default.createElement(
           'div',
@@ -15942,7 +16007,7 @@ var Index = function (_React$Component) {
                 if (k === 4) {
                   return _react2.default.createElement(
                     'li',
-                    { className: 'lottery-unit start', id: 'lotteryGo', key: k },
+                    { className: 'lottery-unit start', id: 'lotteryGo', key: k, 'data-lottery-unit-index': 8 },
                     _react2.default.createElement(
                       'div',
                       { className: 'cont-box' },
@@ -16032,7 +16097,9 @@ var GlobalConfig = {
       console.log('不是浏览器');
     };
     if (window && window.activity) {
-      return window.activity[funName];
+      return function () {
+        window.activity[funName]();
+      };
     } else if (window && window.webkit && window.webkit.messageHandlers) {
       return function () {
         window.webkit.messageHandlers[funName].postMessage(name);

@@ -9,7 +9,9 @@ const GlobalConfig = {
     let funName = GlobalConfig[name] // 获取函数名称
     if(!isBrowser()) return ()=>{console.log('不是浏览器')}
     if(window && window.activity){
-      return window.activity[funName]
+      return ()=>{
+        window.activity[funName]()
+      } 
     }else if(window && window.webkit && window.webkit.messageHandlers){
       return ()=>{ window.webkit.messageHandlers[funName].postMessage(name) }
     }else{

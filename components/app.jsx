@@ -7,13 +7,18 @@ class App extends React.Component {
   }
   render () {
     let navbar = <Nav />
-    if ('checkIn' === this.props.params.type) {
+    if (this.props.location.pathname.indexOf('checkin') !== -1) {
       navbar = null
+      $('#root').addClass('transparent')
+    }else{
+      $('#root').removeClass('transparent')
+      if(window && window.webkit && window.webkit.messageHandlers){
+        window.webkit.messageHandlers['changeColor'].postMessage('ChangeColor')
+      }
     }
     if (this.props.location.pathname.indexOf('/index') !== -1) {
       navbar = <Nav root={true} />
     }
-
     console.log(this.props.location);
     return (
       <div style={{height:'100%',overflowY:'scroll'}}>
