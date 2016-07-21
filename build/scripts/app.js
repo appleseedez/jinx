@@ -14252,8 +14252,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var isBrowser = new Function('try {return this===window;}catch(e){ return false;}');
 var Config = {
 	'scheme': 'http://',
-	'host': '192.168.31.72', //'api.shit0u.com',
-	'port': 8082, //9527,
+	'host': 'ad.miaoqutech.com', //'192.168.31.72',  //'api.shit0u.com',
+	'port': 80, //9527,
 	'prefix': '/ad-api/ad/lottery',
 	'tokenPriveKey': null, // an4@lx300#$o25#$
 	'xPrivateKey': '45ryu230a@n2x302',
@@ -14807,7 +14807,7 @@ var Explain = function (_React$Component) {
           _react2.default.createElement(
             'p',
             null,
-            '资料完整度100%，同时上传8张头像，限首次可获得一次抽奖'
+            '资料完整度80%，同时上传8张头像，限首次可获得一次抽奖'
           )
         ),
         _react2.default.createElement(
@@ -15231,7 +15231,7 @@ var More = function (_React$Component3) {
             _react2.default.createElement(
               'p',
               { className: 'brief' },
-              '100%资料完整（包括8张头像）'
+              '80%资料完整（包括8张头像）'
             ),
             _react2.default.createElement(
               'p',

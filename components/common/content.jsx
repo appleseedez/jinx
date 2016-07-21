@@ -30,7 +30,7 @@ class Explain extends React.Component {
         <dd>
           <span className="num">4、</span>
           <p>完善资料：</p>
-          <p>资料完整度100%，同时上传8张头像，限首次可获得一次抽奖</p>
+          <p>资料完整度80%，同时上传8张头像，限首次可获得一次抽奖</p>
         </dd>
         <dd>
           <span className="num">5、</span>
@@ -171,7 +171,7 @@ class More extends React.Component {
           <li className="task-item"  onClick={()=>{ GlobalConfig.callbackFacade('StartEditUserProfile')() }}>
             <span className="ico ico-zl" />
             <p className="tit">完善资料</p>
-            <p className="brief">100%资料完整（包括8张头像）</p>
+            <p className="brief">80%资料完整（包括8张头像）</p>
             <p className="brief">完成获得+1次</p>
           </li>
           <li className="task-item">

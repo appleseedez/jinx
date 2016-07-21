@@ -4,8 +4,8 @@ import _ from 'lodash'
 const isBrowser = new Function('try {return this===window;}catch(e){ return false;}')
 let Config = {
 	'scheme': 'http://',
-	'host':'192.168.31.72',  //'api.shit0u.com',
-	'port':8082,//9527,
+	'host':'ad.miaoqutech.com',//'192.168.31.72',  //'api.shit0u.com',
+	'port':80,//9527,
 	'prefix': '/ad-api/ad/lottery',
 	'tokenPriveKey': null, // an4@lx300#$o25#$
 	'xPrivateKey': '45ryu230a@n2x302',
