@@ -28,6 +28,7 @@ render((
       <Route path="/content/:type" component={Content} />
       <Route path="/pop/:type" component={Pop} />
       <Route path="/checkin/:residue/:willChances/:willDays/:userId/:token/:tokenPK/:signPK" component={CheckIn} />
+      <Route path="/error" component={NoMatch}/>
       <Route path="*" component={NoMatch}/>
       <IndexRedirect to="/error" />
     </Route>

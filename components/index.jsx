@@ -56,6 +56,8 @@ class Index extends React.Component {
             // }
 
           })
+        }else{
+           GlobalConfig.callbackFacade('Logout')()
         }
       })
   }
@@ -67,6 +69,14 @@ class Index extends React.Component {
   }
   _setup() {
     let component = this
+    if(parseInt(component.state.remainChance) === 0){
+      $('#lotteryGo').unbind('click')
+      $('#lotteryGo').off('click').on('click',()=>{
+          component.context.router.push('/content/more')
+          return false
+      })
+     return
+    }
     lottery.lottery({
       selector: '#lottery',
       width: 3,
@@ -111,7 +121,7 @@ class Index extends React.Component {
             })
             .then(res=>{
               resolve()
-              if(res.success){
+              if(res.success === true){
                 self.options.target = prizeItemKeyMap[res.resultMap.entity.prizeId] 
                 component.setState({
                   remainChance:res.resultMap.entity.remainTimes,
@@ -122,13 +132,25 @@ class Index extends React.Component {
                   // token:decodeURIComponent(self.props.params.token),
                   // tk:decodeURIComponent(self.props.params.tokenPK),
                   // sk:decodeURIComponent(self.props.params.signPK)
+                },()=>{
+                      if(parseInt(component.state.remainChance) === 0){
+                        $('#lotteryGo').unbind('click')
+                        $('#lotteryGo').off('click').on('click',()=>{
+                            component.context.router.push('/content/more')
+                            return false
+                        })
+
+                      }
                 })
+              }else{
+               self._stop()
               }
             })
             .catch(err=>{
               reject(err)
               self.options.target = 8
               self.options.aim = null
+              self._stop()
             })
         })
         .then(()=>{
@@ -138,17 +160,12 @@ class Index extends React.Component {
           console.log('error')
           self.options.target = 8
           self.options.aim = null
+          self._stop()
+          component.context.router.push('/error')
         })
       }
     })
-    if(parseInt(this.state.remainChance) === 0){
-      let component  = this
-      $('#lotteryGo').off('click').on('click',()=>{
-          component.context.router.push('/content/more')
-          return false
-      })
 
-    }
 
     $('#lotteryGo').on('click', function () {
       var $that = $(this);

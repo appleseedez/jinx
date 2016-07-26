@@ -14471,6 +14471,7 @@ var NoMatch = function (_React$Component) {
     _react2.default.createElement(_reactRouter.Route, { path: '/content/:type', component: _content2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: '/pop/:type', component: _pop2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: '/checkin/:residue/:willChances/:willDays/:userId/:token/:tokenPK/:signPK', component: _checkin2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/error', component: NoMatch }),
     _react2.default.createElement(_reactRouter.Route, { path: '*', component: NoMatch }),
     _react2.default.createElement(_reactRouter.IndexRedirect, { to: '/error' })
   )
@@ -15843,6 +15844,8 @@ var Index = function (_React$Component) {
             _this2._setup();
             // }
           });
+        } else {
+          _config2.default.callbackFacade('Logout')();
         }
       });
     }
@@ -15857,9 +15860,15 @@ var Index = function (_React$Component) {
   }, {
     key: '_setup',
     value: function _setup() {
-      var _this3 = this;
-
       var component = this;
+      if (parseInt(component.state.remainChance) === 0) {
+        $('#lotteryGo').unbind('click');
+        $('#lotteryGo').off('click').on('click', function () {
+          component.context.router.push('/content/more');
+          return false;
+        });
+        return;
+      }
       lottery.lottery({
         selector: '#lottery',
         width: 3,
@@ -15899,36 +15908,40 @@ var Index = function (_React$Component) {
               return res.json();
             }).then(function (res) {
               resolve();
-              if (res.success) {
+              if (res.success === true) {
                 self.options.target = prizeItemKeyMap[res.resultMap.entity.prizeId];
                 component.setState({
                   remainChance: res.resultMap.entity.remainTimes,
                   popType: res.resultMap.entity.virtual ? 'virtual' : 'material',
                   pop: false,
                   data: res.resultMap.entity
+                }, function () {
+                  if (parseInt(component.state.remainChance) === 0) {
+                    $('#lotteryGo').unbind('click');
+                    $('#lotteryGo').off('click').on('click', function () {
+                      component.context.router.push('/content/more');
+                      return false;
+                    });
+                  }
                 });
+              } else {
+                self._stop();
               }
             }).catch(function (err) {
               reject(err);
               self.options.target = 8;
               self.options.aim = null;
+              self._stop();
             });
           }).then(function () {}).catch(function (err) {
             console.log('error');
             self.options.target = 8;
             self.options.aim = null;
+            self._stop();
+            component.context.router.push('/error');
           });
         }
       });
-      if (parseInt(this.state.remainChance) === 0) {
-        (function () {
-          var component = _this3;
-          $('#lotteryGo').off('click').on('click', function () {
-            component.context.router.push('/content/more');
-            return false;
-          });
-        })();
-      }
 
       $('#lotteryGo').on('click', function () {
         var $that = $(this);
@@ -15941,7 +15954,7 @@ var Index = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       if (this.state.loading) {
         return _react2.default.createElement(_loading2.default, null);
@@ -15951,7 +15964,7 @@ var Index = function (_React$Component) {
         'div',
         { style: { height: "100%" } },
         this.state.pop && _react2.default.createElement(_pop2.default, { data: this.state.data, popType: this.state.popType, closeFun: function closeFun() {
-            _this4.setState({ pop: false });
+            _this3.setState({ pop: false });
           } }),
         _react2.default.createElement(
           'div',
@@ -16091,6 +16104,7 @@ var GlobalConfig = {
   "ShareFriendsCircle": "startShareFriendsCircleActivity",
   "StartEditUserProfile": "startEditUserProfileActivity",
   "FinishActivity": "finishActivity",
+  "Logout": "logout",
   callbackFacade: function callbackFacade(name) {
     var funName = GlobalConfig[name]; // 获取函数名称
     if (!isBrowser()) return function () {

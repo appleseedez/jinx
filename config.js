@@ -5,6 +5,7 @@ const GlobalConfig = {
   "ShareFriendsCircle": "startShareFriendsCircleActivity",
   "StartEditUserProfile": "startEditUserProfileActivity",
   "FinishActivity": "finishActivity",
+  "Logout":"logout",
   callbackFacade:(name)=>{
     let funName = GlobalConfig[name] // 获取函数名称
     if(!isBrowser()) return ()=>{console.log('不是浏览器')}
