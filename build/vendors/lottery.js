@@ -58,6 +58,7 @@ var lottery = {
 
 	// 开启抽奖
 	_enable: function () {
+		this._disable()
 		this.container.find('#lotteryGo').bind('click', this.beforeRoll);
 	},
 

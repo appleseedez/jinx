@@ -15897,9 +15897,10 @@ var Index = function (_React$Component) {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this.setState({ loading: true });
-      prizeItemKeyMap = null;
-      lotteryKeyMap = null;
+      prizeItemKeyMap = {};
+      lotteryKeyMap = {};
       lotteryInstance._stop();
+      lotteryInstance = null;
       $('.lottery-unit').removeClass('pre');
     }
   }, {
@@ -15908,7 +15909,7 @@ var Index = function (_React$Component) {
       var _this3 = this;
 
       var component = this;
-      $('#lotteryGo').on('click', function () {
+      $('#lotteryGo').off('click').on('click', function () {
         if (lotteryInstance.options.isRunning) return;
         var $that = $(this);
         var t = setTimeout(function () {
@@ -15916,59 +15917,61 @@ var Index = function (_React$Component) {
         }, 200);
         $that.addClass('pre');
       });
-
-      lotteryInstance = lottery.lottery({
-        selector: '#lottery',
-        width: 3,
-        height: 3,
-        index: 0,
-        initSpeed: 500,
-        upStep: 100,
-        upMax: 100,
-        downStep: 60,
-        downMax: 360,
-        waiting: 2000,
-        beforeRoll: function beforeRoll() {
-          _api.API.loot({ userId: store.get('userId') }).then(function (res) {
-            return res.json();
-          }).then(function (res) {
-            if (res.success) {
-              lotteryInstance.options.target = prizeItemKeyMap[res.resultMap.entity.prizeId];
-              component.setState({
-                remainChance: res.resultMap.entity.remainTimes,
-                popType: res.resultMap.entity.virtual ? 'virtual' : 'material',
-                pop: false,
-                data: res.resultMap.entity
-              });
-            } else {
+      console.log('>>', lotteryInstance);
+      if (!lotteryInstance) {
+        lotteryInstance = lottery.lottery({
+          selector: '#lottery',
+          width: 3,
+          height: 3,
+          index: 0,
+          initSpeed: 500,
+          upStep: 100,
+          upMax: 100,
+          downStep: 60,
+          downMax: 360,
+          waiting: 2000,
+          beforeRoll: function beforeRoll() {
+            _api.API.loot({ userId: store.get('userId') }).then(function (res) {
+              return res.json();
+            }).then(function (res) {
+              if (res.success) {
+                lotteryInstance.options.target = prizeItemKeyMap[res.resultMap.entity.prizeId];
+                component.setState({
+                  remainChance: res.resultMap.entity.remainTimes,
+                  popType: res.resultMap.entity.virtual ? 'virtual' : 'material',
+                  pop: false,
+                  data: res.resultMap.entity
+                });
+              } else {
+                lotteryInstance._stop();
+                $('.lottery-unit').removeClass('pre');
+                component.setState({
+                  popType: 'Error',
+                  pop: true,
+                  data: {}
+                });
+              }
+            }).catch(function (err) {
               lotteryInstance._stop();
               $('.lottery-unit').removeClass('pre');
-              component.setState({
-                popType: 'Error',
-                pop: true,
-                data: {}
+              component.context.router.push('/error');
+            });
+          },
+          afterStop: function afterStop() {
+            if (!prizeItemKeyMap) return;
+            if (prizeItemKeyMap[_this3.state.data.prizeId] !== undefined) {
+              _this3.setState({
+                pop: true
+              });
+            } else {
+              _this3.setState({
+                pop: false
               });
             }
-          }).catch(function (err) {
-            lotteryInstance._stop();
-            $('.lottery-unit').removeClass('pre');
-            component.context.router.push('/error');
-          });
-        },
-        afterStop: function afterStop() {
-          if (!prizeItemKeyMap) return;
-          if (prizeItemKeyMap[_this3.state.data.prizeId] !== undefined) {
-            _this3.setState({
-              pop: true
-            });
-          } else {
-            _this3.setState({
-              pop: false
-            });
-          }
-        },
-        aim: function aim() {}
-      });
+          },
+          aim: function aim() {}
+        });
+      }
 
       if (parseInt(this.state.remainChance) <= 0) {
         $('#lotteryGo').unbind('click');

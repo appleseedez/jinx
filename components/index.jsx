@@ -61,14 +61,15 @@ class Index extends React.Component {
   }
   componentWillUnmount() {
     this.setState({ loading: true })
-    prizeItemKeyMap = null
-    lotteryKeyMap = null
+    prizeItemKeyMap = {}
+    lotteryKeyMap = {}
     lotteryInstance._stop()
+    lotteryInstance = null
     $('.lottery-unit').removeClass('pre')
   }
   _setup() {
     let component = this
-    $('#lotteryGo').on('click', function () {
+    $('#lotteryGo').off('click').on('click', function () {
       if(lotteryInstance.options.isRunning) return 
       var $that = $(this);
       var t = setTimeout(function () {
@@ -76,7 +77,8 @@ class Index extends React.Component {
       }, 200);
       $that.addClass('pre');
     })
-
+console.log('>>',lotteryInstance)
+if(!lotteryInstance) {
     lotteryInstance = lottery.lottery({
       selector:'#lottery',
       width:3,
@@ -134,6 +136,8 @@ class Index extends React.Component {
 
       }
     })
+}
+
 
     if (parseInt(this.state.remainChance) <= 0) {
       $('#lotteryGo').unbind('click')
