@@ -43,7 +43,7 @@ class VirtualPop extends React.Component {
             <p className="tit cash">您已享有VIP特权</p>
             <p>VIP可以横着走哦</p>
             <p>快到处逛逛炫一下</p>
-            <p className="dk">我的-钱包中查看</p>
+            <p className="dk">会员中心中查看</p>
           </div>   
       )
     }else{
@@ -52,7 +52,7 @@ class VirtualPop extends React.Component {
             <p className="tit cash">妙喵现金已到账</p>
             <p>发红包勾搭TA</p>
             <p>移驾单身市场</p>
-            <p className="dk">我的-钱包中查看</p>
+            <p className="dk">会员中心中查看</p>
           </div>
        )
 
@@ -112,7 +112,7 @@ class MaterialPop extends React.Component {
             <p className="tit">天啦噜，抽中<em>{ this.props.prizeName || '豪华泰国旅游' }</em>啦</p>
             <p>领奖要积极噢，请您三个工作日内联系客服</p>
             <p>电话：13518202113</p>
-            <p className="dk">抽奖-我的奖品中查看</p>
+            <p className="dk">会员中心中查看</p>
           </div>
           <div className="btn-box" onClick={this.props.closeFun}>
             <span>继续抽奖</span>

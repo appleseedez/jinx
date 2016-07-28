@@ -113,7 +113,7 @@ class PrizeList extends React.Component {
             <h2>领奖说明</h2>
           </div>
           <div className="bd">
-            <p>如何奖品：实物奖品请于中奖之日起3个工作日内联系客服；其他奖品已自动入账</p>
+            <p>如何领奖：实物奖品请于中奖之日起3个工作日内联系客服；其他奖品已自动入账</p>
             <p>客服电话：028-86134618&nbsp;&nbsp;&nbsp;&nbsp;13518202113</p>
           </div>
         </li>
