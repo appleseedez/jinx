@@ -5,7 +5,7 @@ const isBrowser = new Function('try {return this===window;}catch(e){ return fals
 let Config = {
 	'scheme': 'http://',
 	'host':'ad.miaoqutech.com',//'192.168.31.72',  //'api.shit0u.com',
-	'port':80,//9527,
+	'port':80,//8082,//80,//9527,
 	'prefix': '/ad-api/ad/lottery',
 	'tokenPriveKey': null, // an4@lx300#$o25#$
 	'xPrivateKey': '45ryu230a@n2x302',

@@ -7,6 +7,7 @@ import Loading from './common/loading.jsx'
 import Pop from './common/pop.jsx'
 let prizeItemKeyMap = null
 let lotteryKeyMap = null
+let lotteryInstance = null
 class Index extends React.Component {
   constructor() {
     super()
@@ -15,7 +16,8 @@ class Index extends React.Component {
       rows: [],
       loading: true,
       pop:false,
-      prize:{}
+      prize:{},
+      data:{}
     }
    
   }
@@ -44,17 +46,13 @@ class Index extends React.Component {
     API.index({ userId: store.get('userId') })
       .then(res => { return res.json() })
       .then(res => {
-        console.log('index:', JSON.stringify(res, null, 4))
         if (res.success === true) {
           this.setState({
-            remainChance: res.resultMap.entity.chanceCount,
+            remainChance:res.resultMap.entity.chanceCount,
             rows: res.resultMap.rows || [],
             loading: false
           }, () => {
-            // if(parseInt(res.resultMap.entity.chanceCount)>0){
-                this._setup()
-            // }
-
+            this._setup()
           })
         }else{
            GlobalConfig.callbackFacade('Logout')()
@@ -65,115 +63,188 @@ class Index extends React.Component {
     this.setState({ loading: true })
     prizeItemKeyMap = null
     lotteryKeyMap = null
-    console.log('unmount')
+    lotteryInstance._stop()
+    $('.lottery-unit').removeClass('pre')
   }
   _setup() {
     let component = this
-    if(parseInt(component.state.remainChance) === 0){
-      $('#lotteryGo').unbind('click')
-      $('#lotteryGo').off('click').on('click',()=>{
-          component.context.router.push('/content/more')
-          return false
-      })
-     return
-    }
-    lottery.lottery({
-      selector: '#lottery',
-      width: 3,
-      height: 3,
-      index: 7,    // 初始位置
-      initSpeed: 500,  // 初始转动速度
-      upStep: 100,   // 加速滚动步长
-      upMax: 100,   // 速度上限
-      downStep: 60,   // 减速滚动步长
-      downMax: 360,  // 减速上限
-      waiting: 2000, // 匀速转动时长
-      afterStop: function () {
-        if(this.options.target !== 8){
-          component.setState({
-            pop:true
-          })
-        }else{
-          component.setState({
-            pop:false
-          })
-        }
-
-      },
-      beforeRoll: function () { 
-        let self = this
-        self.options.target = 8  
-        self.options.aim = ()=>{
-
-        }
-
-        // 做数据请求, 并且限定超时时间为 <= waiting
-        let Promise = require('bluebird') 
-        new Promise((resolve,reject)=>{
-          // 超时函数,如果超时,就发一个reject
-          let timeout = setTimeout(function() {
-            reject(new Exception('request timeout'))
-          }, self.options.waiting-200)
-            API.loot({userId:store.get('userId')})
-            .then(res=>{
-              clearTimeout(timeout)
-              return res.json()
-            })
-            .then(res=>{
-              resolve()
-              if(res.success === true){
-                self.options.target = prizeItemKeyMap[res.resultMap.entity.prizeId] 
-                component.setState({
-                  remainChance:res.resultMap.entity.remainTimes,
-                  popType:(res.resultMap.entity.virtual?'virtual':'material'),
-                  pop:false,
-                  data:res.resultMap.entity,
-                  // uid:decodeURIComponent(self.props.params.userId),
-                  // token:decodeURIComponent(self.props.params.token),
-                  // tk:decodeURIComponent(self.props.params.tokenPK),
-                  // sk:decodeURIComponent(self.props.params.signPK)
-                },()=>{
-                      if(parseInt(component.state.remainChance) === 0){
-                        $('#lotteryGo').unbind('click')
-                        $('#lotteryGo').off('click').on('click',()=>{
-                            component.context.router.push('/content/more')
-                            return false
-                        })
-
-                      }
-                })
-              }else{
-               self._stop()
-              }
-            })
-            .catch(err=>{
-              reject(err)
-              self.options.target = 8
-              self.options.aim = null
-              self._stop()
-            })
-        })
-        .then(()=>{
-
-        })
-        .catch((err)=>{
-          console.log('error')
-          self.options.target = 8
-          self.options.aim = null
-          self._stop()
-          component.context.router.push('/error')
-        })
-      }
-    })
-
-
     $('#lotteryGo').on('click', function () {
+      if(lotteryInstance.options.isRunning) return 
       var $that = $(this);
       var t = setTimeout(function () {
         $that.removeClass('pre');
       }, 200);
       $that.addClass('pre');
     })
+
+    lotteryInstance = lottery.lottery({
+      selector:'#lottery',
+      width:3,
+      height:3,
+      index:0,
+      initSpeed:500,
+      upStep:100,
+      upMax:100,
+      downStep:60,
+      downMax:360,
+      waiting:2000,
+      beforeRoll:()=>{
+        API
+        .loot({userId:store.get('userId')})
+        .then(res=>res.json())
+        .then(res=>{
+          if (res.success) {
+            lotteryInstance.options.target = prizeItemKeyMap[res.resultMap.entity.prizeId] 
+            component.setState({
+              remainChance:res.resultMap.entity.remainTimes,
+              popType:(res.resultMap.entity.virtual?'virtual':'material'),
+              pop:false,
+              data:res.resultMap.entity,
+            })
+          }else{
+            lotteryInstance._stop()
+            $('.lottery-unit').removeClass('pre')
+            component.setState({
+              popType:'Error',
+              pop:true,
+              data:{}
+            })
+          }
+
+        })
+        .catch(err=>{
+          lotteryInstance._stop()
+          $('.lottery-unit').removeClass('pre')
+          component.context.router.push('/error')
+        })
+      },
+      afterStop:()=>{
+        if(!prizeItemKeyMap) return 
+        if (prizeItemKeyMap[this.state.data.prizeId] !== undefined ) {
+          this.setState({
+            pop:true
+          })
+        }else{
+          this.setState({
+            pop:false
+          })
+        }
+      },
+      aim:()=>{
+
+      }
+    })
+
+    if (parseInt(this.state.remainChance) <= 0) {
+      $('#lotteryGo').unbind('click')
+      $('#lotteryGo').off('click').on('click',()=>{
+        this.context.router.push('/content/more')
+      })
+      return 
+    }
+
+    // let component = this
+    // if(parseInt(component.state.remainChance) === 0){
+    //   $('#lotteryGo').unbind('click')
+    //   $('#lotteryGo').off('click').on('click',()=>{
+    //       component.context.router.push('/content/more')
+    //       return false
+    //   })
+    //  return
+    // }
+    // lottery.lottery({
+    //   selector: '#lottery',
+    //   width: 3,
+    //   height: 3,
+    //   index: 7,    // 初始位置
+    //   initSpeed: 500,  // 初始转动速度
+    //   upStep: 100,   // 加速滚动步长
+    //   upMax: 100,   // 速度上限
+    //   downStep: 60,   // 减速滚动步长
+    //   downMax: 360,  // 减速上限
+    //   waiting: 2000, // 匀速转动时长
+    //   afterStop: function () {
+    //     if(this.options.target !== 8){
+    //       component.setState({
+    //         pop:true
+    //       })
+    //     }else{
+    //       component.setState({
+    //         pop:false
+    //       })
+    //     }
+
+    //   },
+    //   beforeRoll: function () { 
+    //     let self = this
+    //     self.options.target = 8  
+    //     self.options.aim = ()=>{
+
+    //     }
+
+    //     // 做数据请求, 并且限定超时时间为 <= waiting
+    //     let Promise = require('bluebird') 
+    //     new Promise((resolve,reject)=>{
+    //       // 超时函数,如果超时,就发一个reject
+    //       let timeout = setTimeout(function() {
+    //         reject(new Exception('request timeout'))
+    //       }, self.options.waiting-200)
+    //         API.loot({userId:store.get('userId')})
+    //         .then(res=>{
+    //           clearTimeout(timeout)
+    //           return res.json()
+    //         })
+    //         .then(res=>{
+    //           resolve()
+    //           if(res.success === true){
+    //             self.options.target = prizeItemKeyMap[res.resultMap.entity.prizeId] 
+    //             component.setState({
+    //               remainChance:res.resultMap.entity.remainTimes,
+    //               popType:(res.resultMap.entity.virtual?'virtual':'material'),
+    //               pop:false,
+    //               data:res.resultMap.entity,
+    //             },()=>{
+    //                   if(parseInt(component.state.remainChance) === 0){
+    //                     $('#lotteryGo').unbind('click')
+    //                     $('#lotteryGo').off('click').on('click',()=>{
+    //                         component.context.router.push('/content/more')
+    //                         return false
+    //                     })
+
+    //                   }
+    //             })
+    //           }else{
+    //            self._stop()
+    //           }
+    //         })
+    //         .catch(err=>{
+    //           reject(err)
+    //           self.options.target = 8
+    //           self.options.aim = null
+    //           self._stop()
+    //         })
+    //     })
+    //     .then(()=>{
+
+    //     })
+    //     .catch((err)=>{
+    //       console.log('error')
+    //       self.options.target = 8
+    //       self.options.aim = null
+    //       self._stop()
+    //       component.context.router.push('/error')
+    //     })
+    //   }
+    // })
+
+
+    // $('#lotteryGo').on('click', function () {
+    //   var $that = $(this);
+    //   var t = setTimeout(function () {
+    //     $that.removeClass('pre');
+    //   }, 200);
+    //   $that.addClass('pre');
+    // })
   }
   render() {
     if (this.state.loading) {

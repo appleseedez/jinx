@@ -144,6 +144,7 @@ body{overflow: hidden;font-size: 12px;color:#585858;}
 .pop-box-mq .btn-box{height: .98rem;background-color: #ff4855;line-height: .98rem;text-align: center;}
 .pop-box-mq .btn-box span{font-size: .3rem;color: #f4f4f4;}
 .pop-box-mq .ico-close{position: absolute;right: -.22rem;top: 1.36rem;display: inline-block; width: .8rem;height: .8rem;margin-top: -.22rem; background-image: url(../img/prize_pop/pop_clo.png);background-position: 0 0; background-size: contain;background-repeat: no-repeat;}
+.pop-box-mq .err-box{height: 6.02rem;background-color: #fff;background-image:url(../img/error.png);background-position: center center; background-size: 2.99rem;background-repeat: no-repeat;}
 
 /* loading */
 .loading-mq{ height: 100%; width: 100%;background-color: #fff}

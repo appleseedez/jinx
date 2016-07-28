@@ -77,7 +77,24 @@ class VirtualPop extends React.Component {
     )
   }
 }
-
+class ErrorPop extends React.Component {
+  render(){
+    return (
+      <div style={{height:'0%'}}>
+        <div className="cover-layer-mq" />
+        <div className="pop-box-mq">
+          <div className="logo-box">
+            <span className="ico-logo"></span>
+          </div>
+          <div className="err-box"></div>
+          <div className="btn-box" onClick={this.props.closeFun}>
+            <span>再试一次</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
 
 class MaterialPop extends React.Component {
   render () {
@@ -112,6 +129,9 @@ class Pop extends React.Component {
     switch (this.props.params &&  this.props.params.type || this.props.popType) {
       case 'virtual':
         component = <VirtualPop {...this.props.data} closeFun={this.props.closeFun}/>
+        break
+      case 'Error':
+        component = <ErrorPop {...this.props.data} closeFun={this.props.closeFun} />
         break
       default:
         component = <MaterialPop {...this.props.data} closeFun={this.props.closeFun} />

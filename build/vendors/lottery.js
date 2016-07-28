@@ -19,7 +19,7 @@ var defaults = {
 	downMax:      500,  // 减速上限
 	waiting:      3000, // 匀速转动时长
 	index:        0,    // 初始位置
-	target:       7,    // 中奖位置，可通过后台算法来获得，默认值：最便宜的一个奖项或者"谢谢参与"
+	target:       0,    // 中奖位置，可通过后台算法来获得，默认值：最便宜的一个奖项或者"谢谢参与"
 	isRunning:    false // 当前是否正在抽奖
 }
 
@@ -31,6 +31,7 @@ var lottery = {
 		this.options.speed = this.options.initSpeed;
 		this.container = $(this.options.selector);
 		this._enable();
+		return this;
 	},
 
 	// 开始装配转盘

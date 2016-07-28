@@ -7,7 +7,7 @@ class Nav extends React.Component {
     return (
       <nav className="nav-mq">
         <span className="back" id="J_BackBtn" onClick={clickFun} />
-        <h1>妙喵抽奖</h1>
+        <h1>幸运转盘</h1>
       </nav>
     )
   }
