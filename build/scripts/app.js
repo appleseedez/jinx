@@ -15074,7 +15074,7 @@ var PrizeList = function (_React$Component2) {
             _react2.default.createElement(
               'p',
               null,
-              '如何奖品：实物奖品请于中奖之日起3个工作日内联系客服；其他奖品已自动入账'
+              '如何领奖：实物奖品请于中奖之日起3个工作日内联系客服；其他奖品已自动入账'
             ),
             _react2.default.createElement(
               'p',
@@ -15567,7 +15567,7 @@ var VirtualPop = function (_React$Component) {
           _react2.default.createElement(
             'p',
             { className: 'dk' },
-            '我的-钱包中查看'
+            '会员中心中查看'
           )
         );
       } else {
@@ -15592,7 +15592,7 @@ var VirtualPop = function (_React$Component) {
           _react2.default.createElement(
             'p',
             { className: 'dk' },
-            '我的-钱包中查看'
+            '会员中心中查看'
           )
         );
       }
@@ -15729,7 +15729,7 @@ var MaterialPop = function (_React$Component3) {
             _react2.default.createElement(
               'p',
               { className: 'dk' },
-              '抽奖-我的奖品中查看'
+              '会员中心中查看'
             )
           ),
           _react2.default.createElement(
