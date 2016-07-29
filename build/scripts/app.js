@@ -15899,7 +15899,7 @@ var Index = function (_React$Component) {
       this.setState({ loading: true });
       prizeItemKeyMap = {};
       lotteryKeyMap = {};
-      lotteryInstance._stop();
+      lotteryInstance && lotteryInstance._stop();
       lotteryInstance = null;
       $('.lottery-unit').removeClass('pre');
     }
