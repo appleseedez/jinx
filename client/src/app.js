@@ -14,7 +14,7 @@ class NoMatch extends React.Component {
       <div className="loading-mq">
         <div className="loading-box">
           <span className="ico-loading" />
-          <p>不约...</p>
+          <p>网络异常，请重新打开页面</p>
         </div>
       </div>
     )

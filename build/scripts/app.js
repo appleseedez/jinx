@@ -14451,7 +14451,7 @@ var NoMatch = function (_React$Component) {
           _react2.default.createElement(
             'p',
             null,
-            '不约...'
+            '网络异常，请重新打开页面'
           )
         )
       );
@@ -15917,7 +15917,14 @@ var Index = function (_React$Component) {
         }, 200);
         $that.addClass('pre');
       });
-      console.log('>>', lotteryInstance);
+
+      if (parseInt(this.state.remainChance) <= 0) {
+        $('#lotteryGo').unbind('click');
+        $('#lotteryGo').off('click').on('click', function () {
+          _this3.context.router.push('/content/more');
+        });
+        return;
+      }
       if (!lotteryInstance) {
         lotteryInstance = lottery.lottery({
           selector: '#lottery',
@@ -15942,6 +15949,10 @@ var Index = function (_React$Component) {
                   pop: false,
                   data: res.resultMap.entity
                 });
+              } else if (!res.success && res.code === '210001') {
+                $('.lottery-unit').removeClass('pre');
+                lotteryInstance._stop();
+                component.context.router.push('content/more');
               } else {
                 lotteryInstance._stop();
                 $('.lottery-unit').removeClass('pre');
@@ -15971,14 +15982,6 @@ var Index = function (_React$Component) {
           },
           aim: function aim() {}
         });
-      }
-
-      if (parseInt(this.state.remainChance) <= 0) {
-        $('#lotteryGo').unbind('click');
-        $('#lotteryGo').off('click').on('click', function () {
-          _this3.context.router.push('/content/more');
-        });
-        return;
       }
 
       // let component = this
